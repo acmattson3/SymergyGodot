@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ktm7k0co2o7l"]
+
+[ext_resource type="Script" path="res://addons/mqtt/mqtt_handler.gd" id="1_s3rbj"]
+
+[node name="MQTTHandler" type="Node"]
+script = ExtResource("1_s3rbj")
