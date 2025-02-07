@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8bdv2604ub48"]
+
+[ext_resource type="Texture2D" uid="uid://b8ipwl1ihu6oe" path="res://ui_elements/value_teeter/teeter_arm.png" id="1_0f74r"]
+[ext_resource type="Script" path="res://ui_elements/value_teeter/value_teeter.gd" id="1_46axr"]
+[ext_resource type="Texture2D" uid="uid://buo3qvll0cgd0" path="res://ui_elements/value_teeter/teeter_pivot.png" id="2_oe3qm"]
+
+[node name="ValueTeeter" type="CenterContainer"]
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_46axr")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="TeeterArm" type="Sprite2D" parent="AspectRatioContainer"]
+position = Vector2(50, 50)
+texture = ExtResource("1_0f74r")
+
+[node name="TeeterPivot" type="Sprite2D" parent="AspectRatioContainer"]
+position = Vector2(50, 50)
+texture = ExtResource("2_oe3qm")

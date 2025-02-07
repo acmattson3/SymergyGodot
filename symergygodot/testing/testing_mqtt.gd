@@ -15,7 +15,7 @@ func _on_broker_connected():
 	$MQTTHandler.publish("test/topic", "Hello from Godot!")
 
 func _on_received_message(topic, message):
-	print("Message received on topic:", topic, "Message:", message)
+	print("Message received on topic: ", topic, "; Message: ", message)
 
 func _on_broker_connection_failed():
 	print("Failed to connect to the MQTT broker.")
