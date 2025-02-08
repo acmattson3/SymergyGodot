@@ -1,5 +1,4 @@
 extends Node
-class_name MQTTHandler
 
 # MQTT client implementation in GDScript
 # Loosely based on https://github.com/pycom/pycom-libraries/blob/master/lib/mqtt/mqtt.py
@@ -10,7 +9,7 @@ class_name MQTTHandler
 # mosquitto_pub -h test.mosquitto.org -t "metest/retain" -m "retained message" -r
 
 @export var client_id = ""
-@export var verbose_level = 2  # 0 quiet, 1 connections and subscriptions, 2 all messages
+@export var verbose_level = 1  # 0 quiet, 1 connections and subscriptions, 2 all messages
 @export var binary_messages = false
 @export var ping_interval = 30
 
@@ -61,6 +60,7 @@ signal broker_connected()
 signal broker_disconnected()
 signal broker_connection_failed()
 signal publish_acknowledge(pid)
+signal published_messages(messages: Dictionary)
 
 var received_buffer : PackedByteArray = PackedByteArray()
 
@@ -117,7 +117,28 @@ func receive_into_buffer():
 	
 var ping_ticks_next_0 = 0
 
+var buffered_messages := {}
+func queue_message(topic: String, payload: String):
+	buffered_messages[topic] = payload
+
+func publish_buffered_messages():
+	if buffered_messages == {}:
+		return # Nothing to process!
+	for topic in buffered_messages.keys():
+		publish(topic, buffered_messages[topic])
+	
+	published_messages.emit(buffered_messages)
+	
+	buffered_messages = {}
+
+var send_data_elapsed: float = 1.0
+var send_data_interval: float = 1.0
 func _process(delta):
+	send_data_elapsed += delta
+	if send_data_elapsed >= send_data_interval and broker_connect_mode == BCM_CONNECTED:
+		publish_buffered_messages()
+		send_data_elapsed = 0.0
+	
 	if broker_connect_mode == BCM_NOCONNECTION:
 		pass
 	elif broker_connect_mode == BCM_WAITING_WEBSOCKET_CONNECTION:

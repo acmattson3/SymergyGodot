@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0mlkbg2pyqyg"]
+
+[ext_resource type="Script" path="res://interface.gd" id="1_yemto"]
+[ext_resource type="PackedScene" uid="uid://c8bdv2604ub48" path="res://ui_elements/value_teeter/value_teeter.tscn" id="2_o2r0i"]
+
+[node name="Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yemto")
+
+[node name="VoltageTeeter" parent="." instance=ExtResource("2_o2r0i")]
+layout_mode = 0
+balanced_value = 120.0
+value_min = 115.0
+value_max = 125.0
+update_interval = 1.0

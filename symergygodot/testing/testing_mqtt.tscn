@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqx16w6prfj06"]
+[gd_scene load_steps=2 format=3 uid="uid://dqx16w6prfj06"]
 
 [ext_resource type="Script" path="res://testing/testing_mqtt.gd" id="1_kdvpa"]
-[ext_resource type="Script" path="res://addons/mqtt/mqtt_handler.gd" id="2_pcoi1"]
 
 [node name="TestingMQTT" type="Control"]
 layout_mode = 3
@@ -11,6 +10,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kdvpa")
-
-[node name="MQTTHandler" type="Node" parent="."]
-script = ExtResource("2_pcoi1")
