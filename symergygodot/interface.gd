@@ -1,18 +1,33 @@
 extends Control
 
 
+const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
+var mqtt_host := BROKER_HOSTNAME
 func _ready():
 	# Connect signals
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
 	MQTTHandler.received_message.connect(_on_received_message)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
+	#MQTTHandler.broker_disconnected.connect(_on_broker_disconnected)
 	
-	# Connect to the broker
-	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
+	var mqtt_user = "" # Set me, but don't push to git!
+	var mqtt_pass = "" # Set me, but don't push to git!
+	var args = OS.get_cmdline_args()
+	for i in range(args.size()):
+		if args[i] == "--mqtt-host" and i + 1 < args.size():
+			mqtt_host = args[i + 1]
+		elif args[i] == "--mqtt-user" and i + 1 < args.size():
+			mqtt_user = args[i + 1]
+		elif args[i] == "--mqtt-pass" and i + 1 < args.size():
+			mqtt_pass = args[i + 1]
+	print("Username is: "+mqtt_user if mqtt_user != "" else "WARN: Username is empty string!")
+	print("Password is not empty." if mqtt_pass != "" else "WARN: Password is empty string!")
+	MQTTHandler.set_user_pass(mqtt_user, mqtt_pass)
+	MQTTHandler.connect_to_broker(mqtt_host)
 
 func _on_broker_connected():
 	print("Connected to the MQTT broker.")
-	MQTTHandler.subscribe("symergygrid/components/+/voltage") # For voltage teeter
+	MQTTHandler.subscribe("symergygrid/components/+/+/voltage") # For voltage teeter
 
 # Expects json_string to be a stringified Dictionary
 func get_data_from_json_string(json_string, data_key):
