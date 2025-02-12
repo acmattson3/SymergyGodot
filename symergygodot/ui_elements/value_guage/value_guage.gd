@@ -4,23 +4,26 @@ extends CenterContainer
 @export var value_min: float = 0.0
 @export var value_max: float = 0.0
 @export var update_interval: float = 0.05
+@export var unit: String = ""
 @onready var update_elapsed: float = update_interval
-var current_value: float = 1.23456789:
+var current_value: float = 1.23456789: 
 	set(value):
 		current_value = clamp(value, value_min, value_max)
 
-const max_rot_angle: float = 18.3
-@onready var teeter_arm = $AspectRatioContainer/TeeterArm
+const max_rot_angle: float = 135.0
+@onready var guage_needle = $AspectRatioContainer/GaugeNeedle
 
 @export var testing_mode: bool = false
 
 func _ready() -> void:
-	teeter_arm.pivot_offset = teeter_arm.size/2.0
-	teeter_arm.pivot_offset.x += 5.0
-	teeter_arm.pivot_offset.y += 22.0
+	guage_needle.pivot_offset = guage_needle.size/2.0
+	guage_needle.pivot_offset.x += 5.0
+	guage_needle.pivot_offset.y += 22.0
 
 func set_current_value(new_value: float):
 	current_value = new_value
+	var rounded_val = "%.2f" % (new_value)
+	$AspectRatioContainer/Label.text = "\n\n\n\n"+rounded_val+" "+unit
 
 var time: float = 0.0
 var target_angle = 0.0
@@ -41,4 +44,4 @@ func _physics_process(delta: float) -> void:
 		target_angle = max_rot_angle * normalized_value
 		
 	# Smoothly interpolate rotation
-	teeter_arm.rotation_degrees = lerpf(teeter_arm.rotation_degrees, target_angle, 5.0*delta)
+	guage_needle.rotation_degrees = lerpf(guage_needle.rotation_degrees, target_angle, 5.0*delta)
