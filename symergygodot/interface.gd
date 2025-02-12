@@ -1,7 +1,9 @@
 extends Control
 
 
-const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"#sssn.us:1883"
+@export var has_login_file: bool = false
+
+const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"#sssn.us:1883"
 var mqtt_host := BROKER_HOSTNAME
 func _ready():
 	# Connect signals
@@ -10,8 +12,14 @@ func _ready():
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
 	#MQTTHandler.broker_disconnected.connect(_on_broker_disconnected)
 	
-	var mqtt_user = "" # Set me, but don't push to git!
-	var mqtt_pass = "" # Set me, but don't push to git!
+	var mqtt_user = ""
+	var mqtt_pass = ""
+	
+	if has_login_file:
+		var login_dict = get_dict_from_json_string(FileAccess.open("res://mqtt_login.txt", FileAccess.READ).get_as_text())
+		mqtt_user = login_dict["user"]
+		mqtt_pass = login_dict["pass"]
+	
 	var args = OS.get_cmdline_args()
 	for i in range(args.size()):
 		if args[i] == "--mqtt-host" and i + 1 < args.size():
