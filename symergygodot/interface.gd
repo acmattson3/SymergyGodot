@@ -10,8 +10,8 @@ func _ready():
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
 	#MQTTHandler.broker_disconnected.connect(_on_broker_disconnected)
 	
-	var mqtt_user = "symergyuser" # Set me, but don't push to git!
-	var mqtt_pass = "SymergyRox!" # Set me, but don't push to git!
+	var mqtt_user = "" # Set me, but don't push to git!
+	var mqtt_pass = "" # Set me, but don't push to git!
 	var args = OS.get_cmdline_args()
 	for i in range(args.size()):
 		if args[i] == "--mqtt-host" and i + 1 < args.size():
