@@ -33,9 +33,9 @@ func _ready():
 	cp.colors.text = Color.WHITE_SMOKE
 	cp.draw_bounding_box = false
 	cp.show_legend = true
-	cp.title = "Energy Output Over Time"
-	cp.x_label = "Time"
-	cp.y_label = "Power Output"
+	cp.title = "Power Output Over Time"
+	cp.x_label = "Time (s)"
+	cp.y_label = "Power Output (kW)"
 	cp.x_scale = 6
 	cp.y_scale = 5
 	cp.interactive = true  # Enables tooltips and click interactions

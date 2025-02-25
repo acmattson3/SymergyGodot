@@ -3,8 +3,7 @@
 [ext_resource type="Script" path="res://ui_elements/multiline_graph/multiline_graph.gd" id="1_h4km4"]
 [ext_resource type="PackedScene" uid="uid://dlwq4kmdb3bhs" path="res://addons/easy_charts/control_charts/chart.tscn" id="2_7b68q"]
 
-[node name="MultilineGraph" type="Control"]
-layout_mode = 3
+[node name="MultilineGraph" type="ScrollContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,6 +12,4 @@ grow_vertical = 2
 script = ExtResource("1_h4km4")
 
 [node name="Chart" parent="." instance=ExtResource("2_7b68q")]
-layout_mode = 1
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2

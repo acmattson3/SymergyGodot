@@ -76,6 +76,7 @@ func send_data(data):
 		E = websocket.put_packet(data)
 	if E != 0:
 		print("bad send_data packet E=", E)
+		
 	
 func receive_into_buffer():
 	if sslsocket != null:

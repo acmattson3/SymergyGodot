@@ -3,7 +3,7 @@ extends Control
 
 @export var has_login_file: bool = false
 
-const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"#sssn.us:1883"
+const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
 var mqtt_host := BROKER_HOSTNAME
 func _ready():
 	# Connect signals
@@ -56,7 +56,7 @@ func _physics_process(delta: float) -> void:
 			elif type == "load":
 				# Compile all load powers together
 				total_load_power += power
-		var curr_graph = $VBoxContainer/MultilineGraph
+		var curr_graph = $Widget.child_node
 		if total_source_powers != {} and total_source_powers.keys().size() == 4:
 			curr_graph.set_curr_power(total_load_power, "total_load")
 			curr_graph.set_curr_power(total_source_powers["diesel"], "generator")
@@ -73,7 +73,7 @@ func _on_broker_connected():
 	MQTTHandler.subscribe("symergygrid/meterstructure")
 	MQTTHandler.subscribe("symergygrid/components/+/+/voltage") # For voltage teeter/gauge
 	MQTTHandler.subscribe("symergygrid/components/+/+/power") # For multiline graph
-	$VBoxContainer/MultilineGraph.connected = true
+	$Widget.child_node.connected = true
 
 # Expects json_string to be a stringified Dictionary
 func get_data_from_json_string(json_string, data_key):
@@ -147,7 +147,8 @@ func handle_incoming_voltage(_id: String, voltage: float):
 	for voltage_num in rolling_voltages.keys():
 		average_voltage += rolling_voltages[voltage_num]
 	average_voltage /= len(rolling_voltages) if len(rolling_voltages) > 0 else 1
-	$VBoxContainer/ValueGuage.set_current_value(average_voltage)
+	$Widget2.child_node.set_current_value(average_voltage)
+	#$Widget3/ValueTeeter.set_current_value(average_voltage)
 
 var accumulated_power: Dictionary = {}
 func handle_incoming_power(id: String, power: float):
