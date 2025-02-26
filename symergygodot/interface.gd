@@ -4,6 +4,8 @@ extends Control
 @export var has_login_file: bool = false
 
 const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
+#const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"
+
 var mqtt_host := BROKER_HOSTNAME
 func _ready():
 	# Connect signals

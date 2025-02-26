@@ -1,4 +1,4 @@
-extends CenterContainer
+extends AspectRatioContainer
 
 @export var balanced_value: float = 0.0
 @export var value_min: float = 0.0
@@ -11,19 +11,26 @@ var current_value: float = 1.23456789:
 		current_value = clamp(value, value_min, value_max)
 
 const max_rot_angle: float = 135.0
-@onready var guage_needle = $AspectRatioContainer/GaugeNeedle
+@onready var guage_needle = $GaugeNeedle
 
 @export var testing_mode: bool = false
 
+@onready var start_size: Vector2 = Vector2(250.0, 250.0)
 func _ready() -> void:
+	set_needle_offset()
+
+func set_needle_offset():
+	var new_ratio: float = guage_needle.size.x/start_size.x
 	guage_needle.pivot_offset = guage_needle.size/2.0
-	guage_needle.pivot_offset.x += 5.0
-	guage_needle.pivot_offset.y += 22.0
+	guage_needle.pivot_offset.x += 4.5*new_ratio
+	guage_needle.pivot_offset.y -= 1.0*new_ratio
+	$GaugeBody/Label.add_theme_font_size_override("font_size", 32*new_ratio)
 
 func set_current_value(new_value: float):
 	current_value = new_value
+	set_needle_offset()
 	var rounded_val = "%.2f" % (new_value)
-	$AspectRatioContainer/Label.text = "\n\n\n\n"+rounded_val+" "+unit
+	$GaugeBody/Label.text = rounded_val+" "+unit
 
 var time: float = 0.0
 var target_angle = 0.0

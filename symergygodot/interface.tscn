@@ -48,7 +48,7 @@ grow_vertical = 1
 balanced_value = 120.0
 value_min = 108.0
 value_max = 132.0
-update_interval = 1.0
+update_interval = 0.1
 
 [node name="Widget2" parent="." node_paths=PackedStringArray("child_node") instance=ExtResource("2_066yo")]
 layout_mode = 0
