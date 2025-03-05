@@ -3,8 +3,8 @@ extends Control
 
 @export var has_login_file: bool = false
 
-const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
-#const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"
+#const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
+const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"
 
 var mqtt_host := BROKER_HOSTNAME
 func _ready():
@@ -77,49 +77,22 @@ func _on_broker_connected():
 	MQTTHandler.subscribe("symergygrid/components/+/+/power") # For multiline graph
 	$Widget.child_node.connected = true
 
-# Expects json_string to be a stringified Dictionary
-func get_data_from_json_string(json_string, data_key):
-	var data_received = get_dict_from_json_string(json_string)
-	if data_received != null:
-		if data_received.has(data_key):
-			return data_received.value
-		else:
-			print("Unexpected value from data (", data_key, " not in dictionary).")
-			return null
-	else:
-		return null
-
-func get_dict_from_json_string(json_string: String):
-	var json = JSON.new()
-	var error = json.parse(json_string)
-	if error == OK:
-		var data_received = json.data
-		if data_received is Dictionary:
-			#print(data_received)
-			return data_received
-		else:
-			print("Unexpected incoming data (non-dictionary).")
-			return null
-	else:
-		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-		return null
-
 func _on_received_message(topic: String, message):
 	var topic_portions = topic.split('/')
 	match len(topic_portions):
 		2:
 			if topic == "symergygrid/meterstructure" and meter_structure == {}:
-				var incoming_structure = get_dict_from_json_string(message)
+				var incoming_structure = Util.get_dict_from_json_string(message)
 				if incoming_structure != null:
 					parse_meterstructure(incoming_structure)
 		5:
 			var component_id = topic_portions[3]
 			if topic_portions[4] == "voltage":
-				var new_voltage = get_data_from_json_string(message, "value")
+				var new_voltage = Util.get_data_from_json_string(message, "value")
 				if new_voltage != null:
 					handle_incoming_voltage(component_id, new_voltage)
 			if topic_portions[4] == "power":
-				var new_power = get_data_from_json_string(message, "value")
+				var new_power = Util.get_data_from_json_string(message, "value")
 				if new_power != null:
 					handle_incoming_power(component_id, new_power)
 

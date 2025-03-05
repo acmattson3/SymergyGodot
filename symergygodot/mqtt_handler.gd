@@ -209,11 +209,37 @@ func _process(delta):
 	elif broker_connect_mode == BCM_FAILED_CONNECTION:
 		cleanup_sockets()
 
+func _physics_process(delta: float) -> void:
+	pass
+
+@export var mqtt_host: String = "tcp://sssn.us:1883"
+#@export var mqtt_host: String = "tcp://192.168.40.14:1883"
+@export var mqtt_user: String = ""
+@export var mqtt_pass: String = ""
+@export var has_login_file: bool = false
 func _ready():
 	regex_broker_url.compile('^(tcp://|wss://|ws://|ssl://)?([^:\\s]+)(:\\d+)?(/\\S*)?$')
 	if client_id == "":
 		randomize()
 		client_id = "rr%d" % randi()
+	
+	if has_login_file:
+		var login_dict = Util.get_dict_from_json_string(FileAccess.open("res://mqtt_login.txt", FileAccess.READ).get_as_text())
+		mqtt_user = login_dict["user"]
+		mqtt_pass = login_dict["pass"]
+	
+	var args = OS.get_cmdline_args()
+	for i in range(args.size()):
+		if args[i] == "--mqtt-host" and i + 1 < args.size():
+			mqtt_host = args[i + 1]
+		elif args[i] == "--mqtt-user" and i + 1 < args.size():
+			mqtt_user = args[i + 1]
+		elif args[i] == "--mqtt-pass" and i + 1 < args.size():
+			mqtt_pass = args[i + 1]
+	print("Username is: "+mqtt_user if mqtt_user != "" else "WARN: Username is empty string!")
+	print("Password is not empty." if mqtt_pass != "" else "WARN: Password is empty string!")
+	set_user_pass(mqtt_user, mqtt_pass)
+	connect_to_broker(mqtt_host)
 
 func set_last_will(s_topic, s_msg, retain=false, qos=0):
 	assert((0 <= qos) and (qos <= 2))
