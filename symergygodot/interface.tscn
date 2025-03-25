@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0mlkbg2pyqyg"]
+[gd_scene load_steps=6 format=3 uid="uid://d0mlkbg2pyqyg"]
 
 [ext_resource type="Script" path="res://interface.gd" id="1_yemto"]
 [ext_resource type="PackedScene" uid="uid://byh22hwvlf3wi" path="res://ui_elements/widget/widget.tscn" id="2_066yo"]
+[ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_exbko"]
 [ext_resource type="PackedScene" uid="uid://bangv3p0aeglq" path="res://ui_elements/value_guage/value_guage.tscn" id="3_opyfl"]
 [ext_resource type="PackedScene" uid="uid://b0u6wxknfdedc" path="res://ui_elements/multiline_graph/multiline_graph.tscn" id="4_3piia"]
 
@@ -14,6 +15,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yemto")
 has_login_file = true
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_exbko")
 
 [node name="MultilineGraph" parent="." instance=ExtResource("4_3piia")]
 layout_mode = 1
