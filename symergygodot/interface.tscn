@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://interface.gd" id="1_yemto"]
 [ext_resource type="PackedScene" uid="uid://byh22hwvlf3wi" path="res://ui_elements/widget/widget.tscn" id="2_066yo"]
-[ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_exbko"]
+[ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_neno6"]
 [ext_resource type="PackedScene" uid="uid://bangv3p0aeglq" path="res://ui_elements/value_guage/value_guage.tscn" id="3_opyfl"]
 [ext_resource type="PackedScene" uid="uid://b0u6wxknfdedc" path="res://ui_elements/multiline_graph/multiline_graph.tscn" id="4_3piia"]
 
@@ -18,9 +18,9 @@ has_login_file = true
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
-texture = ExtResource("2_exbko")
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_neno6")
 
 [node name="MultilineGraph" parent="." instance=ExtResource("4_3piia")]
 layout_mode = 1
@@ -44,6 +44,7 @@ offset_top = 97.0
 offset_right = 1612.0
 offset_bottom = 863.0
 child_node = NodePath("../MultilineGraph")
+title = "Multiline Graph"
 
 [node name="ValueGuage" parent="." instance=ExtResource("3_opyfl")]
 layout_mode = 0
@@ -64,3 +65,4 @@ offset_top = 97.0
 offset_right = 1612.0
 offset_bottom = 863.0
 child_node = NodePath("../ValueGuage")
+title = "Voltage Gauge"

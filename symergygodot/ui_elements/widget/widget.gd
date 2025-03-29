@@ -5,10 +5,15 @@ extends PanelContainer
 @onready var min_size: Vector2 = custom_minimum_size
 @export var max_size: Vector2 = Vector2(600, 600)
 
+
 @onready var title_bar = $VBoxContainer/TitleBar/Panel
 @onready var settings_button = $VBoxContainer/TitleBar/Panel/SettingsButton
 @onready var resize_handle = $VBoxContainer/BottomBar/ResizeHandle
 @onready var content = $VBoxContainer/Content
+@export var title: String = "Title":
+	set(value):
+		title = value
+		$VBoxContainer/TitleBar/Panel/TitleLabel.text = value
 
 var is_dragging = false
 var drag_offset = Vector2.ZERO
