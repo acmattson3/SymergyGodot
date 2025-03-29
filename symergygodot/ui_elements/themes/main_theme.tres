@@ -1,0 +1,58 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://do1eo1aba15rq"]
+
+[ext_resource type="StyleBox" uid="uid://chfufyeoaf30t" path="res://ui_elements/themes/panel_stylebox.tres" id="1_vjr3u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ixidq"]
+bg_color = Color(0.921826, 0.740277, 7.70092e-07, 0.717647)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlajx"]
+bg_color = Color(0.8073, 0.647036, 3.85046e-07, 0.886275)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctp8y"]
+bg_color = Color(0.653029, 0.520702, 0, 0.729412)
+
+[resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0, 0, 0, 0.5)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0.310616, 0.310618, 0.310618, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_ixidq")
+Button/styles/hover = SubResource("StyleBoxFlat_tlajx")
+Button/styles/normal = SubResource("StyleBoxFlat_ctp8y")
+CheckBox/colors/font_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_focus_color = Color(0.103743, 0.103744, 0.103744, 1)
+CheckBox/colors/font_hover_color = Color(0.284849, 0.284851, 0.284851, 1)
+CheckBox/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_pressed_color = Color(0.306923, 0.306923, 0.306923, 1)
+CheckButton/colors/font_color = Color(0, 0, 0, 1)
+CheckButton/colors/font_focus_color = Color(0.147671, 0.147672, 0.147672, 1)
+CheckButton/colors/font_hover_color = Color(0.310616, 0.310618, 0.310618, 1)
+CheckButton/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+CheckButton/colors/font_pressed_color = Color(0, 0, 0, 1)
+Label/colors/font_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_selected_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_focus_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_hover_color = Color(0.118581, 0.118582, 0.118582, 1)
+MenuBar/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_pressed_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_focus_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_hover_color = Color(0.2159, 0.215902, 0.215902, 1)
+OptionButton/colors/font_color = Color(0, 0, 0, 1)
+OptionButton/colors/font_focus_color = Color(0.072842, 0.0728428, 0.0728429, 1)
+OptionButton/colors/font_hover_color = Color(0.154875, 0.154876, 0.154876, 1)
+OptionButton/colors/font_hover_pressed_color = Color(0.0646965, 0.0646965, 0.0646965, 1)
+OptionButton/colors/font_pressed_color = Color(0, 0, 0, 1)
+Panel/styles/panel = ExtResource("1_vjr3u")
+ProgressBar/colors/font_color = Color(0, 0, 0, 1)
+TabContainer/colors/drop_mark_color = Color(0, 0, 0, 1)
+TabContainer/colors/font_disabled_color = Color(0.176419, 0.176419, 0.176419, 0.5)
+TabContainer/colors/font_hovered_color = Color(0.288517, 0.288518, 0.288519, 1)
+TabContainer/colors/font_selected_color = Color(0, 0, 0, 1)
+TabContainer/colors/font_unselected_color = Color(0.172833, 0.172833, 0.172833, 1)
+TextEdit/colors/font_color = Color(0, 0, 0, 1)
+Tree/colors/font_color = Color(0, 0, 0, 1)

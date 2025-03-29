@@ -18,12 +18,17 @@ config/icon="res://icon.svg"
 [autoload]
 
 MQTTHandler="*res://mqtt_handler.gd"
+Util="*res://util.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=2
+
+[gui]
+
+theme/custom="res://ui_elements/themes/main_theme.tres"
 
 [rendering]
 
