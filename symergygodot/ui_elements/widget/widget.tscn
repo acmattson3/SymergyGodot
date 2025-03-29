@@ -1,8 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://byh22hwvlf3wi"]
+[gd_scene load_steps=9 format=3 uid="uid://byh22hwvlf3wi"]
 
 [ext_resource type="Script" path="res://ui_elements/widget/widget.gd" id="1_crytr"]
-[ext_resource type="Texture2D" uid="uid://c2vg53w11frqv" path="res://ui_elements/graphics/Settings Gear.png" id="1_qfhvm"]
+[ext_resource type="Texture2D" uid="uid://32yedpqqjxo5" path="res://ui_elements/graphics/gear.png" id="2_1e3jr"]
 [ext_resource type="Texture2D" uid="uid://d0aakxe7cc6a7" path="res://ui_elements/graphics/drag_corner.png" id="3_i0th1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f83u0"]
+bg_color = Color(1, 0.803922, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qyabc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pctwb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_isjl0"]
+draw_center = false
+border_width_left = 2
+border_width_right = 2
+border_color = Color(1, 0.803922, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41osy"]
+bg_color = Color(1, 0.803922, 0, 1)
 
 [node name="Widget" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 200)
@@ -19,40 +35,82 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer/TitleBar"]
+[node name="Panel" type="Panel" parent="VBoxContainer/TitleBar"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 64
+theme_override_styles/panel = SubResource("StyleBoxFlat_f83u0")
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/TitleBar/Panel"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = -1.0
+offset_right = 685.0
+offset_bottom = 66.0
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
 text = "Title"
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/TitleBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-
-[node name="SettingsButton" type="Button" parent="VBoxContainer/TitleBar/CenterContainer"]
-custom_minimum_size = Vector2(75, 75)
+[node name="SettingsButton" type="Button" parent="VBoxContainer/TitleBar/Panel"]
 layout_direction = 3
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -24.0
+offset_right = 73.0
+offset_bottom = 24.0
+grow_vertical = 2
 size_flags_horizontal = 3
-icon = ExtResource("1_qfhvm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qyabc")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pctwb")
+icon = ExtResource("2_1e3jr")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Content" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_isjl0")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="BottomBar" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_41osy")
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/BottomBar"]
 layout_mode = 2
+anchors_preset = 0
+offset_top = 4.0
+offset_right = 615.0
+offset_bottom = 54.0
 size_flags_horizontal = 3
 
-[node name="ResizeHandle" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(50, 50)
+[node name="Panel" type="Panel" parent="VBoxContainer/BottomBar"]
 layout_mode = 2
-size_flags_stretch_ratio = 0.1
+offset_left = 619.0
+offset_top = 4.0
+offset_right = 619.0
+offset_bottom = 54.0
+
+[node name="ResizeHandle" type="TextureRect" parent="VBoxContainer/BottomBar"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_i0th1")
-expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2

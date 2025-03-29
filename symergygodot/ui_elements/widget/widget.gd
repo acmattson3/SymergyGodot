@@ -5,9 +5,9 @@ extends PanelContainer
 @onready var min_size: Vector2 = custom_minimum_size
 @export var max_size: Vector2 = Vector2(600, 600)
 
-@onready var title_bar = $VBoxContainer/TitleBar
-@onready var settings_button = $VBoxContainer/TitleBar/CenterContainer/SettingsButton
-@onready var resize_handle = $VBoxContainer/HBoxContainer/ResizeHandle
+@onready var title_bar = $VBoxContainer/TitleBar/Panel
+@onready var settings_button = $VBoxContainer/TitleBar/Panel/SettingsButton
+@onready var resize_handle = $VBoxContainer/BottomBar/ResizeHandle
 @onready var content = $VBoxContainer/Content
 
 var is_dragging = false
