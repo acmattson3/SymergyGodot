@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b25suwefpfitg" path="res://ui_elements/value_guage/gauge_body.png" id="2_xmj28"]
 [ext_resource type="Texture2D" uid="uid://wrx36m12mgqu" path="res://ui_elements/value_guage/gauge_needle.png" id="3_5ttya"]
 
-[node name="ValueGuage" type="AspectRatioContainer"]
+[node name="ValueGauge" type="AspectRatioContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

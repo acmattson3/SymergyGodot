@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://d0mlkbg2pyqyg"]
+[gd_scene load_steps=5 format=3 uid="uid://d0mlkbg2pyqyg"]
 
 [ext_resource type="Script" path="res://interface.gd" id="1_yemto"]
-[ext_resource type="PackedScene" uid="uid://byh22hwvlf3wi" path="res://ui_elements/widget/widget.tscn" id="2_066yo"]
 [ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_neno6"]
-[ext_resource type="PackedScene" uid="uid://bangv3p0aeglq" path="res://ui_elements/value_guage/value_guage.tscn" id="3_opyfl"]
-[ext_resource type="PackedScene" uid="uid://b0u6wxknfdedc" path="res://ui_elements/multiline_graph/multiline_graph.tscn" id="4_3piia"]
+[ext_resource type="Theme" uid="uid://do1eo1aba15rq" path="res://ui_elements/themes/main_theme.tres" id="3_iex3g"]
+[ext_resource type="Texture2D" uid="uid://b32ift86e1r3w" path="res://ui_elements/graphics/plus_icon.png" id="4_gjl2n"]
 
 [node name="Interface" type="Control"]
 layout_mode = 3
@@ -14,7 +13,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yemto")
-has_login_file = true
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 0
@@ -22,47 +20,77 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_neno6")
 
-[node name="MultilineGraph" parent="." instance=ExtResource("4_3piia")]
+[node name="Widgets" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 117.0
-offset_top = 97.0
-offset_right = 1612.0
-offset_bottom = 863.0
-grow_horizontal = 1
-grow_vertical = 1
-size_flags_vertical = 3
-size_flags_stretch_ratio = 5.0
-max_samples = 61
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Widget" parent="." node_paths=PackedStringArray("child_node") instance=ExtResource("2_066yo")]
-layout_mode = 0
-offset_left = 117.0
-offset_top = 97.0
-offset_right = 1612.0
-offset_bottom = 863.0
-child_node = NodePath("../MultilineGraph")
-title = "Multiline Graph"
+[node name="WidgetButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.974
+anchor_top = 0.954
+anchor_right = 0.974
+anchor_bottom = 0.954
+offset_left = -30.0801
+offset_top = -30.3201
+offset_right = 29.9199
+offset_bottom = 29.6799
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("3_iex3g")
+theme_override_font_sizes/font_size = 96
+icon = ExtResource("4_gjl2n")
+expand_icon = true
 
-[node name="ValueGuage" parent="." instance=ExtResource("3_opyfl")]
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 1
-balanced_value = 120.0
-value_min = 108.0
-value_max = 132.0
-update_interval = 0.1
+[node name="WidgetCreationMenu" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.292
+anchor_top = 0.13
+anchor_right = 0.708
+anchor_bottom = 0.87
+offset_left = -0.640076
+offset_top = -0.400009
+offset_right = 0.640015
+offset_bottom = 0.399902
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Widget2" parent="." node_paths=PackedStringArray("child_node") instance=ExtResource("2_066yo")]
-layout_mode = 0
-offset_left = 117.0
-offset_top = 97.0
-offset_right = 1612.0
-offset_bottom = 863.0
-child_node = NodePath("../ValueGuage")
-title = "Voltage Gauge"
+[node name="VBoxContainer" type="VBoxContainer" parent="WidgetCreationMenu"]
+layout_mode = 2
+
+[node name="TitleBar" type="Panel" parent="WidgetCreationMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="WidgetCreationMenu/VBoxContainer/TitleBar"]
+custom_minimum_size = Vector2(328, 67)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.493
+anchor_bottom = 0.493
+offset_top = -33.524
+offset_right = 328.0
+offset_bottom = 33.476
+theme_override_font_sizes/font_size = 48
+text = "Create Widget"
+
+[node name="ExitButton" type="Button" parent="WidgetCreationMenu/VBoxContainer/TitleBar"]
+custom_minimum_size = Vector2(39, 29)
+layout_mode = 2
+anchor_left = 1.0
+anchor_top = 0.287
+anchor_right = 1.0
+anchor_bottom = 0.287
+offset_left = -46.0
+offset_top = -14.516
+offset_right = -7.0
+offset_bottom = 14.484
+text = "X"
+
+[connection signal="pressed" from="WidgetButton" to="." method="_on_widget_button_pressed"]
+[connection signal="pressed" from="WidgetCreationMenu/VBoxContainer/TitleBar/ExitButton" to="." method="_on_widget_button_pressed"]

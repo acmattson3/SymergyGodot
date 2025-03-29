@@ -4,10 +4,40 @@ extends Node
 # Loosely based on https://github.com/pycom/pycom-libraries/blob/master/lib/mqtt/mqtt.py
 # and initial work by Alex J Lennon <ajlennon@dynamicdevices.co.uk>
 # but then heavily rewritten to follow https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
+# Updated by Andrew C Mattson for use in Symergy
 
-# mosquitto_sub -h test.mosquitto.org -v -t "metest/#"
-# mosquitto_pub -h test.mosquitto.org -t "metest/retain" -m "retained message" -r
+## SYMERGY LOGIC
+var meter_structure: Dictionary = {}
+func _parse_meterstructure(incoming_structure: Dictionary):
+	if incoming_structure == {}:
+		print("Empty meter structure!")
+		return
+	for component in incoming_structure.components:
+		var component_id = component.id
+		component.erase("id")
+		if not component_id in meter_structure.keys():
+			meter_structure[component_id] = component
+		else:
+			print("WARN: Duplicate ID detected in meter structure! Skipping.")
 
+func _on_received_message(topic: String, message):
+	var topic_portions = topic.split('/')
+	match len(topic_portions):
+		2:
+			if topic == "symergygrid/meterstructure" and meter_structure == {}:
+				var incoming_structure = Util.get_dict_from_json_string(message)
+				if incoming_structure != null:
+					_parse_meterstructure(incoming_structure)
+		5: # Any topics here should be incoming grid component data
+			pass
+
+func _on_broker_connected():
+	print("Connected to the MQTT broker.")
+
+func _on_broker_connection_failed():
+	print("Failed to connect to the MQTT broker.")
+
+## MQTT LOGIC
 @export var client_id = ""
 @export var verbose_level = 1  # 0 quiet, 1 connections and subscriptions, 2 all messages
 @export var binary_messages = false
@@ -209,11 +239,44 @@ func _process(delta):
 	elif broker_connect_mode == BCM_FAILED_CONNECTION:
 		cleanup_sockets()
 
+var has_login_file: bool = true
+#const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
+const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"
+
+var mqtt_host := BROKER_HOSTNAME
 func _ready():
 	regex_broker_url.compile('^(tcp://|wss://|ws://|ssl://)?([^:\\s]+)(:\\d+)?(/\\S*)?$')
 	if client_id == "":
 		randomize()
 		client_id = "rr%d" % randi()
+	
+	# Connect signals
+	broker_connected.connect(_on_broker_connected)
+	received_message.connect(_on_received_message)
+	broker_connection_failed.connect(_on_broker_connection_failed)
+	#broker_disconnected.connect(_on_broker_disconnected)
+	
+	var mqtt_user = ""
+	var mqtt_pass = ""
+	
+	if has_login_file:
+		var login_text = FileAccess.open("res://mqtt_login.txt", FileAccess.READ).get_as_text()
+		var login_dict = Util.get_dict_from_json_string(login_text)
+		mqtt_user = login_dict["user"]
+		mqtt_pass = login_dict["pass"]
+	
+	var args = OS.get_cmdline_args()
+	for i in range(args.size()):
+		if args[i] == "--mqtt-host" and i + 1 < args.size():
+			mqtt_host = args[i + 1]
+		elif args[i] == "--mqtt-user" and i + 1 < args.size():
+			mqtt_user = args[i + 1]
+		elif args[i] == "--mqtt-pass" and i + 1 < args.size():
+			mqtt_pass = args[i + 1]
+	print("Username is: "+mqtt_user if mqtt_user != "" else "WARN: Username is empty string!")
+	print("Password is not empty." if mqtt_pass != "" else "WARN: Password is empty string!")
+	MQTTHandler.set_user_pass(mqtt_user, mqtt_pass)
+	MQTTHandler.connect_to_broker(mqtt_host)
 
 func set_last_will(s_topic, s_msg, retain=false, qos=0):
 	assert((0 <= qos) and (qos <= 2))

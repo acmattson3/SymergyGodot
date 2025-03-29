@@ -6,14 +6,16 @@ extends PanelContainer
 @export var max_size: Vector2 = Vector2(600, 600)
 
 
-@onready var title_bar = $VBoxContainer/TitleBar/Panel
-@onready var settings_button = $VBoxContainer/TitleBar/Panel/SettingsButton
+@onready var title_bar = $VBoxContainer/TitleBar
+@onready var settings_button = $VBoxContainer/TitleBar/SettingsButton
 @onready var resize_handle = $VBoxContainer/BottomBar/ResizeHandle
 @onready var content = $VBoxContainer/Content
-@export var title: String = "Title":
+@export var title: String = "Unnamed Widget":
 	set(value):
 		title = value
-		$VBoxContainer/TitleBar/Panel/TitleLabel.text = value
+		$VBoxContainer/TitleBar/TitleBar/TitleLabel.text = value
+enum WidgetType { NONE, GAUGE, MULTILINE }
+@export var widget_type: WidgetType = WidgetType.NONE
 
 var is_dragging = false
 var drag_offset = Vector2.ZERO
@@ -28,12 +30,21 @@ func _ready():
 	settings_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	resize_handle.mouse_default_cursor_shape = Control.CURSOR_FDIAGSIZE
 	
-	child_node.reparent.call_deferred(content)
+	#child_node.reparent.call_deferred(content)
 	#print(child_node.get_parent().name)
 	
 	#if child_node != null:
 	#	child_node.reparent(content)
 		#content.add_child(child_node)
+
+func _physics_process(delta: float) -> void:
+	match widget_type:
+		WidgetType.NONE:
+			print("I am nothing, and have no one.")
+		WidgetType.GAUGE:
+			print("I'm a gauge widget!")
+		WidgetType.MULTILINE:
+			print("I'm a multiline widget!")
 
 func _on_title_bar_gui_input(event):
 	if event is InputEventMouseButton:
