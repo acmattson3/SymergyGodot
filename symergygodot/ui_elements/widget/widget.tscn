@@ -34,26 +34,27 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("2_may34")
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer/TitleBar"]
-layout_mode = 0
-offset_right = 669.0
-offset_bottom = 67.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TitleBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.999
+anchor_bottom = 0.985
+offset_right = -0.327026
+offset_bottom = 0.0199966
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/TitleBar/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 48
 text = "Title"
+clip_text = true
+text_overrun_behavior = 3
 
-[node name="SettingsButton" type="Button" parent="VBoxContainer/TitleBar"]
+[node name="SettingsButton" type="Button" parent="VBoxContainer/TitleBar/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
 layout_direction = 3
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 25.0
-offset_top = -24.0
-offset_right = 73.0
-offset_bottom = 24.0
-grow_vertical = 2
-size_flags_horizontal = 3
+layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_qyabc")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pctwb")
 icon = ExtResource("2_1e3jr")

@@ -33,6 +33,7 @@ func _on_received_message(topic: String, message):
 
 func _on_broker_connected():
 	print("Connected to the MQTT broker.")
+	MQTTHandler.subscribe("symergygrid/meterstructure")
 
 func _on_broker_connection_failed():
 	print("Failed to connect to the MQTT broker.")
@@ -241,7 +242,8 @@ func _process(delta):
 
 var has_login_file: bool = true
 #const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
-const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"
+#const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"
+const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
 
 var mqtt_host := BROKER_HOSTNAME
 func _ready():

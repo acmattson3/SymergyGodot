@@ -31,14 +31,14 @@ grow_vertical = 2
 [node name="WidgetButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.974
-anchor_top = 0.954
-anchor_right = 0.974
-anchor_bottom = 0.954
-offset_left = -30.0801
-offset_top = -30.3201
-offset_right = 29.9199
-offset_bottom = 29.6799
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -80.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("3_iex3g")
@@ -60,14 +60,14 @@ offset_bottom = 0.399902
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WidgetCreationMenu"]
+[node name="WidgetCreationBars" type="VBoxContainer" parent="WidgetCreationMenu"]
 layout_mode = 2
 
-[node name="TitleBar" type="Panel" parent="WidgetCreationMenu/VBoxContainer"]
+[node name="TitleBar" type="Panel" parent="WidgetCreationMenu/WidgetCreationBars"]
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="WidgetCreationMenu/VBoxContainer/TitleBar"]
+[node name="TitleLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/TitleBar"]
 custom_minimum_size = Vector2(328, 67)
 layout_mode = 1
 anchors_preset = -1
@@ -79,7 +79,7 @@ offset_bottom = 33.476
 theme_override_font_sizes/font_size = 48
 text = "Create Widget"
 
-[node name="ExitButton" type="Button" parent="WidgetCreationMenu/VBoxContainer/TitleBar"]
+[node name="ExitButton" type="Button" parent="WidgetCreationMenu/WidgetCreationBars/TitleBar"]
 custom_minimum_size = Vector2(39, 29)
 layout_mode = 2
 anchor_left = 1.0
@@ -92,5 +92,155 @@ offset_right = -7.0
 offset_bottom = 14.484
 text = "X"
 
+[node name="WidgetTitle" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+layout_mode = 2
+
+[node name="WidgetTitleLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/WidgetTitle"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Widget Title: "
+
+[node name="WidgetTitleLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/WidgetTitle"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SettingsLineEdit"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Unnamed Widget"
+
+[node name="WidgetType" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+layout_mode = 2
+
+[node name="WidgetTypeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/WidgetType"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Widget Type: "
+
+[node name="WidgetOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/WidgetType"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+selected = 0
+item_count = 3
+popup/item_0/text = "None"
+popup/item_1/text = "Gauge"
+popup/item_1/id = 1
+popup/item_2/text = "Multiline Graph"
+popup/item_2/id = 2
+
+[node name="GaugeVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MaxValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+layout_mode = 2
+
+[node name="MaxValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MaxValueHBox"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Maximum Gauge Value: "
+
+[node name="MaxValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MaxValueHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLineEdit"
+theme_override_font_sizes/font_size = 24
+placeholder_text = "1.0"
+
+[node name="BalValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+layout_mode = 2
+
+[node name="BalValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/BalValueHBox"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Balanced Gauge Value: "
+
+[node name="BalValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/BalValueHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLineEdit"
+theme_override_font_sizes/font_size = 24
+placeholder_text = "0.0"
+
+[node name="MinValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+layout_mode = 2
+
+[node name="MinValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MinValueHBox"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Minimum Gauge Value: "
+
+[node name="MinValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MinValueHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLineEdit"
+theme_override_font_sizes/font_size = 24
+placeholder_text = "-1.0"
+
+[node name="UpdateIntHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+layout_mode = 2
+
+[node name="UpdateIntLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UpdateIntHBox"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Update Interval (seconds): "
+
+[node name="UpdateIntLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UpdateIntHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLineEdit"
+theme_override_font_sizes/font_size = 24
+placeholder_text = "0.05"
+
+[node name="UnitHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+layout_mode = 2
+
+[node name="UnitLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UnitHBox"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Unit: "
+
+[node name="UnitLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UnitHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLineEdit"
+theme_override_font_sizes/font_size = 24
+
+[node name="MultilineVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="WidgetCreationMenu/WidgetCreationBars"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+layout_mode = 2
+
+[node name="ErrorLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+theme_override_colors/font_color = Color(0.831373, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+
+[node name="Spacer" type="Control" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CreateWidgetButton" type="Button" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(175, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 24
+text = "Create Widget"
+
 [connection signal="pressed" from="WidgetButton" to="." method="_on_widget_button_pressed"]
-[connection signal="pressed" from="WidgetCreationMenu/VBoxContainer/TitleBar/ExitButton" to="." method="_on_widget_button_pressed"]
+[connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/TitleBar/ExitButton" to="." method="_on_widget_button_pressed"]
+[connection signal="item_selected" from="WidgetCreationMenu/WidgetCreationBars/WidgetType/WidgetOptionButton" to="." method="_on_widget_option_button_item_selected"]
+[connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer/CreateWidgetButton" to="." method="_on_create_widget_button_pressed"]

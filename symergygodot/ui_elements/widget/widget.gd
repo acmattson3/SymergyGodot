@@ -1,19 +1,19 @@
 extends PanelContainer
+class_name Widget
 
 @export var child_node: Control # The node we are "hosting"
 @export var grid_size: int = 16  # Snap-to-grid size
 @onready var min_size: Vector2 = custom_minimum_size
 @export var max_size: Vector2 = Vector2(600, 600)
 
-
 @onready var title_bar = $VBoxContainer/TitleBar
-@onready var settings_button = $VBoxContainer/TitleBar/SettingsButton
+@onready var settings_button = $VBoxContainer/TitleBar/HBoxContainer/SettingsButton
 @onready var resize_handle = $VBoxContainer/BottomBar/ResizeHandle
 @onready var content = $VBoxContainer/Content
 @export var title: String = "Unnamed Widget":
 	set(value):
 		title = value
-		$VBoxContainer/TitleBar/TitleBar/TitleLabel.text = value
+		%TitleLabel.text = value
 enum WidgetType { NONE, GAUGE, MULTILINE }
 @export var widget_type: WidgetType = WidgetType.NONE
 
@@ -88,5 +88,11 @@ func _on_resize_handle_gui_input(event):
 func _open_settings():
 	print("Open settings menu here")  # Replace with your actual settings UI logic
 
-func set_content(new_ui_element: Control):
-	content.add_child(new_ui_element)
+static func create(title: String, elem) -> Widget:
+	var new_widget = load("res://ui_elements/widget/widget.tscn").instantiate()
+	new_widget.title = title
+	new_widget.set_content.call_deferred(elem)
+	return new_widget
+
+func set_content(new_ui_element):
+	content.add_child.call_deferred(new_ui_element)

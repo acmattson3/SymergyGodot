@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bangv3p0aeglq"]
 
-[ext_resource type="Script" path="res://ui_elements/value_guage/value_guage.gd" id="1_ltwfj"]
-[ext_resource type="Texture2D" uid="uid://b25suwefpfitg" path="res://ui_elements/value_guage/gauge_body.png" id="2_xmj28"]
-[ext_resource type="Texture2D" uid="uid://wrx36m12mgqu" path="res://ui_elements/value_guage/gauge_needle.png" id="3_5ttya"]
+[ext_resource type="Script" path="res://ui_elements/value_gauge/value_gauge.gd" id="1_3u0yb"]
+[ext_resource type="Texture2D" uid="uid://b25suwefpfitg" path="res://ui_elements/value_gauge/gauge_body.png" id="2_b5ods"]
+[ext_resource type="Texture2D" uid="uid://wrx36m12mgqu" path="res://ui_elements/value_gauge/gauge_needle.png" id="3_5luuh"]
 
 [node name="ValueGauge" type="AspectRatioContainer"]
 anchors_preset = 15
@@ -10,11 +10,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ltwfj")
+script = ExtResource("1_3u0yb")
+testing_mode = true
 
 [node name="GaugeBody" type="TextureRect" parent="."]
 layout_mode = 2
-texture = ExtResource("2_xmj28")
+texture = ExtResource("2_b5ods")
 expand_mode = 1
 stretch_mode = 4
 
@@ -31,6 +32,7 @@ offset_right = 38.04
 offset_bottom = 22.0399
 grow_horizontal = 2
 grow_vertical = 0
+theme_type_variation = &"SettingsLabel"
 theme_override_font_sizes/font_size = 32
 text = "0.00"
 horizontal_alignment = 1
@@ -38,6 +40,6 @@ vertical_alignment = 1
 
 [node name="GaugeNeedle" type="TextureRect" parent="."]
 layout_mode = 2
-texture = ExtResource("3_5ttya")
+texture = ExtResource("3_5luuh")
 expand_mode = 1
 stretch_mode = 4

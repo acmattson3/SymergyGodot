@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://do1eo1aba15rq"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://do1eo1aba15rq"]
 
 [ext_resource type="StyleBox" uid="uid://chfufyeoaf30t" path="res://ui_elements/themes/panel_stylebox.tres" id="1_vjr3u"]
 
@@ -10,6 +10,9 @@ bg_color = Color(0.8073, 0.647036, 3.85046e-07, 0.886275)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctp8y"]
 bg_color = Color(0.653029, 0.520702, 0, 0.729412)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikdfq"]
+bg_color = Color(0.152941, 0.141176, 0.494118, 0.576471)
 
 [resource]
 Button/colors/font_color = Color(0, 0, 0, 1)
@@ -48,7 +51,14 @@ OptionButton/colors/font_hover_color = Color(0.154875, 0.154876, 0.154876, 1)
 OptionButton/colors/font_hover_pressed_color = Color(0.0646965, 0.0646965, 0.0646965, 1)
 OptionButton/colors/font_pressed_color = Color(0, 0, 0, 1)
 Panel/styles/panel = ExtResource("1_vjr3u")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ikdfq")
 ProgressBar/colors/font_color = Color(0, 0, 0, 1)
+SettingsLabel/base_type = &"Label"
+SettingsLabel/colors/font_color = Color(1, 1, 1, 1)
+SettingsLabel/font_sizes/font_size = 32
+SettingsLineEdit/base_type = &"LineEdit"
+SettingsLineEdit/colors/font_color = Color(1, 1, 1, 1)
+SettingsLineEdit/colors/font_selected_color = Color(1, 1, 1, 1)
 TabContainer/colors/drop_mark_color = Color(0, 0, 0, 1)
 TabContainer/colors/font_disabled_color = Color(0.176419, 0.176419, 0.176419, 0.5)
 TabContainer/colors/font_hovered_color = Color(0.288517, 0.288518, 0.288519, 1)
