@@ -53,6 +53,9 @@ func _on_broker_connection_failed():
 	print("Failed to connect to the MQTT broker.")
 
 func request_new_component_metric(comp_id: String, metric: String) -> void:
+	if stored_data.has(comp_id):
+		if stored_data[comp_id].has(metric):
+			return # We are already subscribed!
 	var topic = "symergygrid/components/"
 	if not meter_structure.has(comp_id):
 		print("WARNING: Component ", comp_id, " not found!")
