@@ -32,6 +32,7 @@ var component_functions: Array[Function] = []
 
 var done_init: bool = false
 func do_init():
+	await get_tree().physics_frame
 	# Create @x values (Time axis)
 	var x: Array = [0]
 	#var y1: Array = [0]
@@ -123,7 +124,7 @@ func _process(delta: float):
 			var curr_func = component_functions[i]
 			var data = MQTTHandler.get_component_metric(graphed_components[i], graphed_component_metrics[i])
 			var curr_y = 0.0
-			if data is Dictionary:
+			if data is Dictionary and data != null:
 				curr_y = data.value
 			curr_func.add_point(curr_x, curr_y)
 		

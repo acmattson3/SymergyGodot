@@ -91,6 +91,8 @@ func _draw_vertical_grid() -> void:
 		
 		# Draw V Tick Labels
 		if get_parent().chart_properties.show_tick_labels:
+			if not x_domain.has("has_decimals"):
+				return # Not ready
 			var tick_lbl: String = _get_tick_label(_x, x_val, x_domain.has_decimals, self.x_labels_function)
 			draw_string(
 				get_parent().chart_properties.font, 
@@ -135,6 +137,8 @@ func _draw_horizontal_grid() -> void:
 		
 		# Draw H Tick Labels
 		if get_parent().chart_properties.show_tick_labels:
+			if not y_domain.has("has_decimals"):
+				return # Not ready
 			var tick_lbl: String = _get_tick_label(_y, y_val, y_domain.has_decimals, y_labels_function)
 			draw_string(
 				get_parent().chart_properties.font, 

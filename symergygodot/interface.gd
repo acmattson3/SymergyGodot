@@ -96,7 +96,13 @@ func _on_create_widget_button_pressed() -> void:
 			for child in %CurrCompsVBox.get_children():
 				ui_element.add_graphed_component(child.get_component_name(), child.get_color(), child.get_metric())
 				MQTTHandler.request_new_component_metric(child.get_component_name(), child.get_metric())
-			ui_element.max_samples = %TickButton.value
+			ui_element.max_samples = %TickButton.value + 1
+			if %TitleLineEdit.text != "":
+				ui_element.graph_title = %TitleLineEdit.text
+			if %YAxisLineEdit.text != "":
+				ui_element.y_label = %YAxisLineEdit.text
+			if %XAxisLineEdit.text != "":
+				ui_element.x_label = %XAxisLineEdit.text
 			new_widget = Widget.create(widget_title, ui_element)
 			new_widget.widget_type = Widget.WidgetType.MULTILINE
 	
