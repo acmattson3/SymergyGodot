@@ -48,6 +48,7 @@ icon = ExtResource("4_gjl2n")
 expand_icon = true
 
 [node name="WidgetCreationMenu" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.292
@@ -133,6 +134,7 @@ popup/item_2/id = 2
 
 [node name="GaugeVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="DataModeHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
