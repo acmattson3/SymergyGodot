@@ -7,7 +7,7 @@ class_name Widget
 @export var max_size: Vector2 = Vector2(600, 600)
 
 @onready var title_bar = $VBoxContainer/TitleBar
-@onready var settings_button = $VBoxContainer/TitleBar/HBoxContainer/SettingsButton
+@onready var exit_button = $VBoxContainer/TitleBar/HBoxContainer/ExitButton
 @onready var resize_handle = $VBoxContainer/BottomBar/ResizeHandle
 @onready var content = $VBoxContainer/Content
 @export var title: String = "Unnamed Widget":
@@ -26,10 +26,10 @@ var is_resizing = false
 func _ready():
 	title_bar.gui_input.connect(_on_title_bar_gui_input)
 	resize_handle.gui_input.connect(_on_resize_handle_gui_input)
-	settings_button.pressed.connect(_open_settings)
+	exit_button.pressed.connect(_on_exit_widget)
 	
 	title_bar.mouse_default_cursor_shape = Control.CURSOR_MOVE
-	settings_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	exit_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	resize_handle.mouse_default_cursor_shape = Control.CURSOR_FDIAGSIZE
 	
 	#child_node.reparent.call_deferred(content)
@@ -93,8 +93,8 @@ func _on_resize_handle_gui_input(event):
 		size = _snap_to_grid(new_size)
 		accept_event()
 
-func _open_settings():
-	print("Open settings menu here")  # Replace with your actual settings UI logic
+func _on_exit_widget():
+	queue_free()
 
 static func create(title: String, elem) -> Widget:
 	var new_widget = load("res://ui_elements/widget/widget.tscn").instantiate()
@@ -105,6 +105,16 @@ static func create(title: String, elem) -> Widget:
 func set_content(new_ui_element):
 	content.add_child.call_deferred(new_ui_element)
 	child_node = new_ui_element
+
+func handle_startup():
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	if not child_node:
+		return
+	match widget_type:
+		WidgetType.MULTILINE:
+			child_node.do_init()
 
 func _process_multiline(delta: float) -> void:
 	return # Ignore this for now

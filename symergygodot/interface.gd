@@ -19,6 +19,7 @@ func _on_meterstructure_broadcast(meter_structure: Dictionary):
 	for key in meter_structure.keys():
 		id_list.append(key)
 	%SingleLookupLineEdit.set_lookup_list(id_list)
+	%LookupLineEdit.set_lookup_list(id_list)
 
 # Open widget creation menu
 func _on_widget_button_pressed() -> void:
@@ -47,30 +48,30 @@ func _on_widget_option_button_item_selected(index: int) -> void:
 func _on_create_widget_button_pressed() -> void:
 	var widget_title = %WidgetTitleLineEdit.text
 	
-	var data_mode: int = %DataModeOptionButton.selected
-	match data_mode:
-		0: # Single
-			var component_id: String = %SingleLookupLineEdit.text
-			if component_id == "":
-				%ErrorLabel.text = "Please choose a component!"
-				return
-		1: # Group
-			pass
-		2: # Custom
-			pass
-	
 	var new_widget: Widget = null
 	match widget_type:
 		Widget.WidgetType.NONE:
 			pass
 		Widget.WidgetType.GAUGE:
+			var data_mode: int = %DataModeOptionButton.selected
+			match data_mode:
+				0: # Single
+					var component_id: String = %SingleLookupLineEdit.text
+					if component_id == "":
+						%ErrorLabel.text = "Please choose a component!"
+						return
+				1: # Group
+					pass
+				2: # Custom
+					pass
+			
 			var max_val = float(%MaxValueLineEdit.text if %MaxValueLineEdit.text!="" else %MaxValueLineEdit.placeholder_text)
 			var balanced_val = float(%BalValueLineEdit.text if %BalValueLineEdit.text!="" else %BalValueLineEdit.placeholder_text)
 			var min_val = float(%MinValueLineEdit.text if %MinValueLineEdit.text!="" else %MinValueLineEdit.placeholder_text)
 			var update_int = float(%UpdateIntLineEdit.text if %UpdateIntLineEdit.text!="" else %UpdateIntLineEdit.placeholder_text)
 			var unit = %UnitLineEdit.text
 			
-			var ui_element = ValueGauge.create(max_val, balanced_val, min_val, update_int, unit)
+			var ui_element: ValueGauge = ValueGauge.create(max_val, balanced_val, min_val, update_int, unit)
 			new_widget = Widget.create(widget_title, ui_element)
 			new_widget.widget_type = Widget.WidgetType.GAUGE
 			
@@ -87,11 +88,28 @@ func _on_create_widget_button_pressed() -> void:
 					pass
 			
 		Widget.WidgetType.MULTILINE:
-			pass
+			var ui_element: MultilineGraph = MultilineGraph.create()
+			
+			if %CurrCompsVBox.get_child_count() <= 0:
+				%ErrorLabel.text = "Please add at least one component!"
+				return
+			for child in %CurrCompsVBox.get_children():
+				ui_element.add_graphed_component(child.get_component_name(), child.get_color(), child.get_metric())
+				MQTTHandler.request_new_component_metric(child.get_component_name(), child.get_metric())
+			ui_element.max_samples = %TickButton.value
+			new_widget = Widget.create(widget_title, ui_element)
+			new_widget.widget_type = Widget.WidgetType.MULTILINE
 	
 	if new_widget != null:
 		widgets.add_child(new_widget)
+		new_widget.handle_startup()
 		$WidgetCreationMenu.visible = !$WidgetCreationMenu.visible
 	else:
 		print("Unable to instantiate widget!")
 		%ErrorLabel.text = "Please choose a widget type!"
+
+func _on_lookup_line_edit_selection_made(item: String) -> void:
+	var new_comp = load("res://ui_elements/listed_component/listed_component.tscn").instantiate()
+	new_comp.set_component_name(item)
+	%CurrCompsVBox.add_child(new_comp)
+	%LookupLineEdit.text = ""

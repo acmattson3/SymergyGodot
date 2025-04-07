@@ -6,7 +6,8 @@ var marker: int
 var color: Color
 
 func _draw() -> void:
-	var center: Vector2 = get_rect().get_center()
+	#var center: Vector2 = get_rect().get_center()
+	var center = Vector2(0.0, 12.0)
 	
 	match self.type:
 		Function.Type.LINE:

@@ -1,13 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://byh22hwvlf3wi"]
+[gd_scene load_steps=6 format=3 uid="uid://byh22hwvlf3wi"]
 
 [ext_resource type="Script" path="res://ui_elements/widget/widget.gd" id="1_crytr"]
-[ext_resource type="Texture2D" uid="uid://32yedpqqjxo5" path="res://ui_elements/graphics/gear.png" id="2_1e3jr"]
 [ext_resource type="StyleBox" uid="uid://chfufyeoaf30t" path="res://ui_elements/themes/panel_stylebox.tres" id="2_may34"]
 [ext_resource type="Texture2D" uid="uid://d0aakxe7cc6a7" path="res://ui_elements/graphics/drag_corner.png" id="3_i0th1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qyabc"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pctwb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_isjl0"]
 draw_center = false
@@ -51,13 +46,12 @@ text = "Title"
 clip_text = true
 text_overrun_behavior = 3
 
-[node name="SettingsButton" type="Button" parent="VBoxContainer/TitleBar/HBoxContainer"]
+[node name="ExitButton" type="Button" parent="VBoxContainer/TitleBar/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_direction = 3
 layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_qyabc")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_pctwb")
-icon = ExtResource("2_1e3jr")
+theme_override_font_sizes/font_size = 24
+text = "X"
 icon_alignment = 1
 expand_icon = true
 
