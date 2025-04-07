@@ -16,6 +16,8 @@ class_name Widget
 		%TitleLabel.text = value
 enum WidgetType { NONE, GAUGE, MULTILINE }
 @export var widget_type: WidgetType = WidgetType.NONE
+enum WidgetMode { SINGLE, GROUP, CUSTOM }
+@export var widget_mode: WidgetMode = WidgetMode.SINGLE
 
 var is_dragging = false
 var drag_offset = Vector2.ZERO
@@ -37,14 +39,20 @@ func _ready():
 	#	child_node.reparent(content)
 		#content.add_child(child_node)
 
+var curr_component: String = ""
+var curr_metric: String = ""
 func _physics_process(delta: float) -> void:
 	match widget_type:
 		WidgetType.NONE:
-			print("I am nothing, and have no one.")
+			pass
 		WidgetType.GAUGE:
-			print("I'm a gauge widget!")
+			if widget_mode == WidgetMode.SINGLE and curr_component != "":
+				var package = MQTTHandler.get_component_metric(curr_component, curr_metric)
+				if package != null:
+					child_node.set_current_value(package.value)
+				#child_node.set_current_unit(package.unit)
 		WidgetType.MULTILINE:
-			print("I'm a multiline widget!")
+			_process_multiline(delta)
 
 func _on_title_bar_gui_input(event):
 	if event is InputEventMouseButton:
@@ -96,3 +104,10 @@ static func create(title: String, elem) -> Widget:
 
 func set_content(new_ui_element):
 	content.add_child.call_deferred(new_ui_element)
+	child_node = new_ui_element
+
+func _process_multiline(delta: float) -> void:
+	return # Ignore this for now
+
+func _process_value_gauge(delta: float) -> void:
+	return

@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://durhwpu222bw4"]
+
+[ext_resource type="Script" path="res://ui_elements/LookupLineEdit/lookup_line_edit.gd" id="1_u1qeb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ol3n8"]
+bg_color = Color(0.0392157, 0.0392157, 0.0392157, 0.909804)
+
+[node name="LookupLineEdit" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u1qeb")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"SettingsLineEdit"
+
+[node name="Panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+top_level = true
+visibility_layer = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ol3n8")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="ResultsVBox" type="VBoxContainer" parent="Panel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/ResultsVBox"]
+layout_mode = 2
+
+[connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]

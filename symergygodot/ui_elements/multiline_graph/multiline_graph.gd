@@ -4,7 +4,7 @@ extends Control
 @export var max_samples: int = 60
 @onready var connected: bool = false
 
-# This Chart will plot 4 different functions
+# Plot these functions
 var f_gen: Function
 var f_solar: Function
 var f_wind: Function
@@ -13,9 +13,9 @@ var f_load_total: Function
 var f_source_total: Function
 
 func _ready():
-	await get_tree().process_frame  # Ensures all nodes are ready before accessing them
+	await get_tree().process_frame
 	
-	# Let's create our @x values (Time axis)
+	# Create @x values (Time axis)
 	var x: Array = [0]
 	var y1: Array = [0]
 	var y2: Array = [0]

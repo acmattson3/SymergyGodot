@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0mlkbg2pyqyg"]
+[gd_scene load_steps=6 format=3 uid="uid://d0mlkbg2pyqyg"]
 
 [ext_resource type="Script" path="res://interface.gd" id="1_yemto"]
 [ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_neno6"]
 [ext_resource type="Theme" uid="uid://do1eo1aba15rq" path="res://ui_elements/themes/main_theme.tres" id="3_iex3g"]
 [ext_resource type="Texture2D" uid="uid://b32ift86e1r3w" path="res://ui_elements/graphics/plus_icon.png" id="4_gjl2n"]
+[ext_resource type="PackedScene" uid="uid://durhwpu222bw4" path="res://ui_elements/LookupLineEdit/lookup_line_edit.tscn" id="5_rlhb0"]
 
 [node name="Interface" type="Control"]
 layout_mode = 3
@@ -132,8 +133,74 @@ popup/item_2/id = 2
 
 [node name="GaugeVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
 unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DataModeHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
 visible = false
 layout_mode = 2
+
+[node name="DataModeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/DataModeHBox"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Data Selection Mode: "
+
+[node name="DataModeOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/DataModeHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+selected = 0
+item_count = 3
+popup/item_0/text = "Single"
+popup/item_1/text = "Group"
+popup/item_1/id = 1
+popup/item_2/text = "Custom"
+popup/item_2/id = 2
+
+[node name="SingleVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/SingleVBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/SingleVBox/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Component ID: "
+
+[node name="SingleLookupLineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/SingleVBox/HBoxContainer" instance=ExtResource("5_rlhb0")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GroupVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+visible = false
+layout_mode = 2
+
+[node name="CustomVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+visible = false
+layout_mode = 2
+
+[node name="MetricHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MetricHBox"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Component Metric: "
+
+[node name="MetricOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MetricHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 4
+popup/item_0/text = "voltage"
+popup/item_1/text = "current"
+popup/item_1/id = 1
+popup/item_2/text = "power"
+popup/item_2/id = 2
+popup/item_3/text = "energy"
+popup/item_3/id = 3
 
 [node name="MaxValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
 layout_mode = 2
@@ -239,6 +306,14 @@ layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 24
 text = "Create Widget"
+
+[node name="ConnectingLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 457.0
+offset_bottom = 94.0
+theme_type_variation = &"SettingsLabel"
+theme_override_colors/font_color = Color(0.886275, 0, 0, 1)
+text = "Connecting to MQTT broker..."
 
 [connection signal="pressed" from="WidgetButton" to="." method="_on_widget_button_pressed"]
 [connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/TitleBar/ExitButton" to="." method="_on_widget_button_pressed"]

@@ -4,7 +4,9 @@ class_name ValueGauge
 @export var balanced_value: float = 0.0
 @export var value_min: float = -1.0
 @export var value_max: float = 1.0
-@export var update_interval: float = 0.05
+@export var update_interval: float = 0.05:
+	set(value):
+		update_interval = value if value >= 0.05 else 0.05
 @export var unit: String = ""
 @onready var update_elapsed: float = update_interval
 var current_value: float = 1.23456789: 
@@ -20,9 +22,7 @@ const max_rot_angle: float = 135.0
 
 @onready var start_size: Vector2 = Vector2(250.0, 250.0)
 func _ready() -> void:
-	set_needle_offset()
-	if testing_mode:
-		current_value = 0.0
+	set_current_value(balanced_value)
 
 func set_needle_offset():
 	var new_ratio: float = guage_needle.size.x/start_size.x

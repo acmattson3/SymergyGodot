@@ -6,7 +6,14 @@ extends Node
 # but then heavily rewritten to follow https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
 # Updated by Andrew C Mattson for use in Symergy
 
+const BROKER_HOSTNAME: String = "tcp://sssn.us"
+#const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
+
 ## SYMERGY LOGIC
+signal meterstructure_broadcast(meter_structure: Dictionary)
+
+var stored_data: Dictionary = {}
+
 var meter_structure: Dictionary = {}
 func _parse_meterstructure(incoming_structure: Dictionary):
 	if incoming_structure == {}:
@@ -19,17 +26,24 @@ func _parse_meterstructure(incoming_structure: Dictionary):
 			meter_structure[component_id] = component
 		else:
 			print("WARN: Duplicate ID detected in meter structure! Skipping.")
+	
+	meterstructure_broadcast.emit(meter_structure)
 
 func _on_received_message(topic: String, message):
 	var topic_portions = topic.split('/')
+	var incoming_structure = Util.get_dict_from_json_string(message)
 	match len(topic_portions):
 		2:
 			if topic == "symergygrid/meterstructure" and meter_structure == {}:
-				var incoming_structure = Util.get_dict_from_json_string(message)
 				if incoming_structure != null:
 					_parse_meterstructure(incoming_structure)
 		5: # Any topics here should be incoming grid component data
-			pass
+			var comp_id: String = topic_portions[3]
+			var metric: String = topic_portions[4]
+			if stored_data.has(comp_id):
+				stored_data[comp_id].merge({metric: incoming_structure}, true)
+			else:
+				stored_data[comp_id] = {metric: incoming_structure}
 
 func _on_broker_connected():
 	print("Connected to the MQTT broker.")
@@ -37,6 +51,22 @@ func _on_broker_connected():
 
 func _on_broker_connection_failed():
 	print("Failed to connect to the MQTT broker.")
+
+func request_new_component_metric(comp_id: String, metric: String) -> void:
+	var topic = "symergygrid/components/"
+	if not meter_structure.has(comp_id):
+		print("WARNING: Component ", comp_id, " not found!")
+		return # We don't have that component
+	topic += meter_structure[comp_id].type + "s/"
+	topic += comp_id + "/" + metric
+	
+	MQTTHandler.subscribe(topic)
+
+func get_component_metric(comp_id: String, metric: String):
+	if stored_data.has(comp_id) and stored_data[comp_id].has(metric):
+		return stored_data[comp_id][metric]
+	else:
+		return null
 
 ## MQTT LOGIC
 @export var client_id = ""
@@ -241,10 +271,6 @@ func _process(delta):
 		cleanup_sockets()
 
 var has_login_file: bool = true
-#const BROKER_HOSTNAME: String = "tcp://sssn.us:1883"
-#const BROKER_HOSTNAME: String = "tcp://192.168.40.14:1883"
-const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
-
 var mqtt_host := BROKER_HOSTNAME
 func _ready():
 	regex_broker_url.compile('^(tcp://|wss://|ws://|ssl://)?([^:\\s]+)(:\\d+)?(/\\S*)?$')
