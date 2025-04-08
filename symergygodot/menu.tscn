@@ -1,0 +1,172 @@
+[gd_scene load_steps=11 format=3 uid="uid://xmnj0a50egcw"]
+
+[ext_resource type="Script" path="res://ui_elements/scripts/meun_screen.gd" id="1_eugk6"]
+[ext_resource type="Texture2D" uid="uid://cmhk1ndmke4gq" path="res://ui_elements/graphics/yellow_corner.png" id="1_u6vjb"]
+[ext_resource type="Texture2D" uid="uid://dd56qeo0vy6ap" path="res://ui_elements/graphics/symergylogo.png" id="2_8nadd"]
+[ext_resource type="FontFile" uid="uid://xw5x0vmj0ffm" path="res://ui_elements/fonts/Oswald-VariableFont_wght.ttf" id="3_ccio2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0h3lr"]
+bg_color = Color(0, 0, 0, 0.25098)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qu40w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgomv"]
+bg_color = Color(0.783085, 0.626883, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oeeq6"]
+bg_color = Color(1, 0.8, 0.0156863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v44u8"]
+bg_color = Color(0.690964, 0.551932, 0, 1)
+
+[sub_resource type="Theme" id="Theme_2pkyf"]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 24
+Button/styles/focus = SubResource("StyleBoxEmpty_qu40w")
+Button/styles/hover = SubResource("StyleBoxFlat_mgomv")
+Button/styles/normal = SubResource("StyleBoxFlat_oeeq6")
+Button/styles/pressed = SubResource("StyleBoxFlat_v44u8")
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_eugk6")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0h3lr")
+
+[node name="CornerTopLeft" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 148.0
+offset_bottom = 148.0
+texture = ExtResource("1_u6vjb")
+expand_mode = 1
+
+[node name="CornerBottomLeft" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -20.0
+offset_right = 148.0
+offset_bottom = 108.0
+grow_vertical = 0
+rotation = 4.71239
+texture = ExtResource("1_u6vjb")
+expand_mode = 1
+
+[node name="CornerTopRight" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 108.0
+offset_bottom = 148.0
+grow_horizontal = 0
+rotation = 1.5708
+texture = ExtResource("1_u6vjb")
+expand_mode = 1
+
+[node name="CornerBottomRight" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 108.0
+offset_bottom = 108.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = 3.14159
+texture = ExtResource("1_u6vjb")
+expand_mode = 1
+
+[node name="Logo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -390.0
+offset_right = 192.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_8nadd")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Logo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = 208.0
+offset_right = 118.0
+offset_bottom = 488.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Back" type="Button" parent="Logo/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2pkyf")
+theme_override_fonts/font = ExtResource("3_ccio2")
+theme_override_font_sizes/font_size = 32
+text = "BACK TO SIM"
+
+[node name="Settings" type="Button" parent="Logo/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2pkyf")
+theme_override_fonts/font = ExtResource("3_ccio2")
+theme_override_font_sizes/font_size = 32
+text = "SETTINGS"
+
+[node name="Credits" type="Button" parent="Logo/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2pkyf")
+theme_override_fonts/font = ExtResource("3_ccio2")
+theme_override_font_sizes/font_size = 32
+text = "CREDITS"
+
+[node name="MainMenu" type="Button" parent="Logo/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2pkyf")
+theme_override_fonts/font = ExtResource("3_ccio2")
+theme_override_font_sizes/font_size = 32
+text = "MAIN MENU"
+
+[connection signal="pressed" from="Logo/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Logo/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Logo/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="Logo/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
