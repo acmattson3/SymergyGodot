@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://dem4nrhpjssok"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f3n4h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0puet"]
+bg_color = Color(0.783085, 0.626883, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjgq8"]
+bg_color = Color(1, 0.8, 0.0156863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onhrv"]
+bg_color = Color(0.690964, 0.551932, 0, 1)
+
+[resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 24
+Button/styles/focus = SubResource("StyleBoxEmpty_f3n4h")
+Button/styles/hover = SubResource("StyleBoxFlat_0puet")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_0puet")
+Button/styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_0puet")
+Button/styles/normal = SubResource("StyleBoxFlat_wjgq8")
+Button/styles/normal_mirrored = SubResource("StyleBoxFlat_wjgq8")
+Button/styles/pressed = SubResource("StyleBoxFlat_onhrv")
+Button/styles/pressed_mirrored = SubResource("StyleBoxFlat_onhrv")

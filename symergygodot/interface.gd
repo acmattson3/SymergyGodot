@@ -1,11 +1,17 @@
 extends Control
 
+@export var MENU : Control
+
 @onready var widgets: Control = $Widgets
 
 func _ready():
 	MQTTHandler.meterstructure_broadcast.connect(_on_meterstructure_broadcast)
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
+	
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("escape"):
+		MENU.visible = true
 
 func _on_broker_connected():
 	$ConnectingLabel.hide()
