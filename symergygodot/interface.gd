@@ -1,17 +1,16 @@
 extends Control
 
-@export var MENU : Control
-
 @onready var widgets: Control = $Widgets
 
 func _ready():
+	if MQTTHandler.is_connected_to_broker():
+		_on_broker_connected()
+	if MQTTHandler.has_meterstructure():
+		_on_meterstructure_broadcast(MQTTHandler.get_meterstructure())
+	
 	MQTTHandler.meterstructure_broadcast.connect(_on_meterstructure_broadcast)
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
-	
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("escape"):
-		MENU.visible = true
 
 func _on_broker_connected():
 	$ConnectingLabel.hide()
@@ -76,6 +75,13 @@ func _on_create_widget_button_pressed() -> void:
 			var min_val = float(%MinValueLineEdit.text if %MinValueLineEdit.text!="" else %MinValueLineEdit.placeholder_text)
 			var update_int = float(%UpdateIntLineEdit.text if %UpdateIntLineEdit.text!="" else %UpdateIntLineEdit.placeholder_text)
 			var unit = %UnitLineEdit.text
+			
+			if max_val <= min_val:
+				%ErrorLabel.text = "Max value must be greater than min value!"
+				return
+			if not Util.val_in_interval(balanced_val, min_val, max_val, false):
+				%ErrorLabel.text = "Balanced value must be between min and max values!"
+				return
 			
 			var ui_element: ValueGauge = ValueGauge.create(max_val, balanced_val, min_val, update_int, unit)
 			new_widget = Widget.create(widget_title, ui_element)

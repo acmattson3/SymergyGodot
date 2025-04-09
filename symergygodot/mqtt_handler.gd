@@ -6,8 +6,8 @@ extends Node
 # but then heavily rewritten to follow https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
 # Updated by Andrew C Mattson for use in Symergy
 
-const BROKER_HOSTNAME: String = "tcp://sssn.us"
-#const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
+#const BROKER_HOSTNAME: String = "tcp://sssn.us"
+const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
 
 ## SYMERGY LOGIC
 signal meterstructure_broadcast(meter_structure: Dictionary)
@@ -70,6 +70,18 @@ func get_component_metric(comp_id: String, metric: String):
 		return stored_data[comp_id][metric]
 	else:
 		return null
+
+func is_connected_to_broker() -> bool:
+	return broker_connect_mode == BCM_CONNECTED
+
+func get_meterstructure() -> Dictionary:
+	return meter_structure
+
+func has_meterstructure() -> bool:
+	if meter_structure.keys().size() > 0:
+		return true
+	else:
+		return false
 
 ## MQTT LOGIC
 @export var client_id = ""

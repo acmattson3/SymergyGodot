@@ -1,0 +1,169 @@
+[gd_scene load_steps=13 format=3 uid="uid://dhwetitgsfa4n"]
+
+[ext_resource type="Script" path="res://ui_elements/menus/main_menu.gd" id="1_lx5f2"]
+[ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_p4qdg"]
+[ext_resource type="Texture2D" uid="uid://cmhk1ndmke4gq" path="res://ui_elements/graphics/yellow_corner.png" id="3_knhky"]
+[ext_resource type="Texture2D" uid="uid://dd56qeo0vy6ap" path="res://ui_elements/graphics/symergylogo.png" id="4_pk87k"]
+[ext_resource type="FontFile" uid="uid://xw5x0vmj0ffm" path="res://ui_elements/fonts/Oswald-VariableFont_wght.ttf" id="5_kgqnq"]
+[ext_resource type="PackedScene" uid="uid://5goygekty5xi" path="res://ui_elements/menus/settings_menu.tscn" id="6_6bp8x"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ecqmu"]
+texture = ExtResource("2_p4qdg")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_06onh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yq7x"]
+bg_color = Color(0.783085, 0.626883, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oj2pg"]
+bg_color = Color(1, 0.8, 0.0156863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tpyqa"]
+bg_color = Color(0.690964, 0.551932, 0, 1)
+
+[sub_resource type="Theme" id="Theme_kgkfv"]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 24
+Button/styles/focus = SubResource("StyleBoxEmpty_06onh")
+Button/styles/hover = SubResource("StyleBoxFlat_5yq7x")
+Button/styles/normal = SubResource("StyleBoxFlat_oj2pg")
+Button/styles/pressed = SubResource("StyleBoxFlat_tpyqa")
+
+[node name="MainMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lx5f2")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ecqmu")
+
+[node name="CornerTopLeft" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 148.0
+offset_bottom = 148.0
+texture = ExtResource("3_knhky")
+expand_mode = 1
+
+[node name="CornerBottomLeft" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -20.0
+offset_right = 148.0
+offset_bottom = 108.0
+grow_vertical = 0
+rotation = 4.71239
+texture = ExtResource("3_knhky")
+expand_mode = 1
+
+[node name="CornerTopRight" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 108.0
+offset_bottom = 148.0
+grow_horizontal = 0
+rotation = 1.5708
+texture = ExtResource("3_knhky")
+expand_mode = 1
+
+[node name="CornerBottomRight" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 108.0
+offset_bottom = 108.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = 3.14159
+texture = ExtResource("3_knhky")
+expand_mode = 1
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.344
+anchor_top = 0.083
+anchor_right = 0.656
+anchor_bottom = 0.917
+offset_left = -0.480042
+offset_top = 0.359993
+offset_right = 0.47998
+offset_bottom = -0.360046
+stretch_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Logo" type="TextureRect" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_pk87k")
+expand_mode = 4
+
+[node name="Start" type="Button" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_kgkfv")
+theme_override_fonts/font = ExtResource("5_kgqnq")
+theme_override_font_sizes/font_size = 32
+text = "START"
+
+[node name="Settings" type="Button" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_kgkfv")
+theme_override_fonts/font = ExtResource("5_kgqnq")
+theme_override_font_sizes/font_size = 32
+text = "SETTINGS"
+
+[node name="Credits" type="Button" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_kgkfv")
+theme_override_fonts/font = ExtResource("5_kgqnq")
+theme_override_font_sizes/font_size = 32
+text = "CREDITS"
+
+[node name="Exit" type="Button" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_kgkfv")
+theme_override_fonts/font = ExtResource("5_kgqnq")
+theme_override_font_sizes/font_size = 32
+text = "EXIT"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("6_6bp8x")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

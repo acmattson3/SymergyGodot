@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="SymergyGodot"
-run/main_scene="res://interface.tscn"
+run/main_scene="res://ui_elements/menus/main_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 

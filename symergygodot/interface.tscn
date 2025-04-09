@@ -6,9 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://b32ift86e1r3w" path="res://ui_elements/graphics/plus_icon.png" id="4_gjl2n"]
 [ext_resource type="PackedScene" uid="uid://durhwpu222bw4" path="res://ui_elements/LookupLineEdit/lookup_line_edit.tscn" id="5_rlhb0"]
 [ext_resource type="PackedScene" uid="uid://dy2hfp16618ef" path="res://ui_elements/tick_button/tick_button.tscn" id="6_d384x"]
-[ext_resource type="PackedScene" uid="uid://xmnj0a50egcw" path="res://menu.tscn" id="7_diikk"]
+[ext_resource type="PackedScene" uid="uid://xmnj0a50egcw" path="res://ui_elements/menus/pause_menu.tscn" id="7_diikk"]
 
-[node name="Interface" type="Control" node_paths=PackedStringArray("MENU")]
+[node name="Interface" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yemto")
-MENU = NodePath("Menu")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 0
@@ -406,7 +405,7 @@ theme_type_variation = &"SettingsLabel"
 theme_override_colors/font_color = Color(0.886275, 0, 0, 1)
 text = "Connecting to MQTT broker..."
 
-[node name="Menu" parent="." instance=ExtResource("7_diikk")]
+[node name="PauseMenu" parent="." instance=ExtResource("7_diikk")]
 visible = false
 layout_mode = 1
 

@@ -26,3 +26,9 @@ func get_dict_from_json_string(json_string: String):
 	else:
 		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 		return null
+
+func val_in_interval(val, min, max, inclusive=true) -> bool:
+	if inclusive:
+		return val >= min and val <= max
+	else:
+		return val > min and val < max
