@@ -6,8 +6,8 @@ extends Node
 # but then heavily rewritten to follow https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
 # Updated by Andrew C Mattson for use in Symergy
 
-#const BROKER_HOSTNAME: String = "tcp://sssn.us"
-const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
+const BROKER_HOSTNAME: String = "tcp://sssn.us"
+#const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
 
 ## SYMERGY LOGIC
 signal meterstructure_broadcast(meter_structure: Dictionary)
