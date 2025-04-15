@@ -1,6 +1,19 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://do1eo1aba15rq"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://do1eo1aba15rq"]
 
+[ext_resource type="FontFile" uid="uid://xw5x0vmj0ffm" path="res://ui_elements/fonts/Oswald-VariableFont_wght.ttf" id="1_0njlx"]
 [ext_resource type="StyleBox" uid="uid://chfufyeoaf30t" path="res://ui_elements/themes/panel_stylebox.tres" id="1_vjr3u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g308x"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ixidq"]
 bg_color = Color(0.921826, 0.740277, 7.70092e-07, 0.717647)
@@ -11,6 +24,18 @@ bg_color = Color(0.8073, 0.647036, 3.85046e-07, 0.886275)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctp8y"]
 bg_color = Color(0.653029, 0.520702, 0, 0.729412)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ind7p"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikdfq"]
 bg_color = Color(0.152941, 0.141176, 0.494118, 0.576471)
 
@@ -20,10 +45,25 @@ Button/colors/font_disabled_color = Color(0, 0, 0, 0.5)
 Button/colors/font_focus_color = Color(0, 0, 0, 1)
 Button/colors/font_hover_color = Color(0.310616, 0.310618, 0.310618, 1)
 Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
 Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/align_to_largest_stylebox = 0
+Button/constants/h_separation = 4
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("1_0njlx")
+Button/styles/disabled = SubResource("StyleBoxFlat_g308x")
 Button/styles/focus = SubResource("StyleBoxFlat_ixidq")
 Button/styles/hover = SubResource("StyleBoxFlat_tlajx")
 Button/styles/normal = SubResource("StyleBoxFlat_ctp8y")
+Button/styles/pressed = SubResource("StyleBoxFlat_ind7p")
 CheckBox/colors/font_color = Color(0, 0, 0, 1)
 CheckBox/colors/font_focus_color = Color(0.103743, 0.103744, 0.103744, 1)
 CheckBox/colors/font_hover_color = Color(0.284849, 0.284851, 0.284851, 1)
@@ -35,8 +75,10 @@ CheckButton/colors/font_hover_color = Color(0.310616, 0.310618, 0.310618, 1)
 CheckButton/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 CheckButton/colors/font_pressed_color = Color(0, 0, 0, 1)
 Label/colors/font_color = Color(0, 0, 0, 1)
+Label/fonts/font = ExtResource("1_0njlx")
 LineEdit/colors/font_color = Color(0, 0, 0, 1)
 LineEdit/colors/font_selected_color = Color(0, 0, 0, 1)
+LineEdit/fonts/font = ExtResource("1_0njlx")
 MenuBar/colors/font_color = Color(0, 0, 0, 1)
 MenuBar/colors/font_focus_color = Color(0, 0, 0, 1)
 MenuBar/colors/font_hover_color = Color(0.118581, 0.118582, 0.118582, 1)
@@ -53,6 +95,7 @@ OptionButton/colors/font_pressed_color = Color(0, 0, 0, 1)
 Panel/styles/panel = ExtResource("1_vjr3u")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ikdfq")
 ProgressBar/colors/font_color = Color(0, 0, 0, 1)
+ProgressBar/fonts/font = ExtResource("1_0njlx")
 SettingsLabel/base_type = &"Label"
 SettingsLabel/colors/font_color = Color(1, 1, 1, 1)
 SettingsLabel/font_sizes/font_size = 32
@@ -64,5 +107,9 @@ TabContainer/colors/font_disabled_color = Color(0.176419, 0.176419, 0.176419, 0.
 TabContainer/colors/font_hovered_color = Color(0.288517, 0.288518, 0.288519, 1)
 TabContainer/colors/font_selected_color = Color(0, 0, 0, 1)
 TabContainer/colors/font_unselected_color = Color(0.172833, 0.172833, 0.172833, 1)
+TabContainer/fonts/font = ExtResource("1_0njlx")
 TextEdit/colors/font_color = Color(0, 0, 0, 1)
+TextEdit/fonts/font = ExtResource("1_0njlx")
 Tree/colors/font_color = Color(0, 0, 0, 1)
+Tree/fonts/font = ExtResource("1_0njlx")
+Tree/fonts/title_button_font = ExtResource("1_0njlx")

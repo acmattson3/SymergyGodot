@@ -14,6 +14,9 @@ signal meterstructure_broadcast(meter_structure: Dictionary)
 
 var stored_data: Dictionary = {}
 
+func get_broker_hostname() -> String:
+	return mqtt_host
+
 var meter_structure: Dictionary = {}
 func _parse_meterstructure(incoming_structure: Dictionary):
 	if incoming_structure == {}:
@@ -45,12 +48,12 @@ func _on_received_message(topic: String, message):
 			else:
 				stored_data[comp_id] = {metric: incoming_structure}
 
-func _on_broker_connected():
-	print("Connected to the MQTT broker.")
+func _on_broker_connected(in_mqtt_host):
+	print("Connected to the MQTT broker: ", in_mqtt_host)
 	MQTTHandler.subscribe("symergygrid/meterstructure")
 
-func _on_broker_connection_failed():
-	print("Failed to connect to the MQTT broker.")
+func _on_broker_connection_failed(in_mqtt_host):
+	print("Failed to connect to the MQTT broker: ", in_mqtt_host)
 
 func request_new_component_metric(comp_id: String, metric: String) -> void:
 	if stored_data.has(comp_id):
@@ -132,9 +135,9 @@ var lw_qos = 0
 var lw_retain = false
 
 signal received_message(topic, message)
-signal broker_connected()
-signal broker_disconnected()
-signal broker_connection_failed()
+signal broker_connected(mqtt_host: String)
+signal broker_disconnected(mqtt_host: String)
+signal broker_connection_failed(mqtt_host: String)
 signal publish_acknowledge(pid)
 signal published_messages(messages: Dictionary)
 
@@ -225,7 +228,7 @@ func _process(delta):
 			if verbose_level:
 				print("WebSocket closed with code: %d, reason %s." % [websocket.get_close_code(), websocket.get_close_reason()])
 			broker_connect_mode = BCM_FAILED_CONNECTION
-			emit_signal("broker_connection_failed")
+			emit_signal("broker_connection_failed", mqtt_host)
 		elif websocket_state == WebSocketPeer.STATE_OPEN:
 			broker_connect_mode = BCM_WAITING_CONNMESSAGE
 			if verbose_level:
@@ -238,7 +241,7 @@ func _process(delta):
 			if verbose_level:
 				print("TCP socket error")
 			broker_connect_mode = BCM_FAILED_CONNECTION
-			emit_signal("broker_connection_failed")
+			emit_signal("broker_connection_failed", mqtt_host)
 		if socket_status == StreamPeerTCP.STATUS_CONNECTED:
 			broker_connect_mode = BCM_WAITING_CONNMESSAGE
 
@@ -249,7 +252,7 @@ func _process(delta):
 			if verbose_level:
 				print("TCP socket error before SSL")
 			broker_connect_mode = BCM_FAILED_CONNECTION
-			emit_signal("broker_connection_failed")
+			emit_signal("broker_connection_failed", mqtt_host)
 		if socket_status == StreamPeerTCP.STATUS_CONNECTED:
 			if sslsocket == null:
 				sslsocket = StreamPeerTLS.new()
@@ -259,7 +262,7 @@ func _process(delta):
 				if E3 != 0:
 					print("bad sslsocket.connect_to_stream E=", E3)
 					broker_connect_mode = BCM_FAILED_CONNECTION
-					emit_signal("broker_connection_failed")
+					emit_signal("broker_connection_failed", mqtt_host)
 					sslsocket = null
 			if sslsocket != null:
 				sslsocket.poll()
@@ -268,7 +271,7 @@ func _process(delta):
 					broker_connect_mode = BCM_WAITING_CONNMESSAGE
 				elif sslsocket_status >= StreamPeerTLS.STATUS_ERROR:
 					print("bad sslsocket.connect_to_stream")
-					emit_signal("broker_connection_failed")
+					emit_signal("broker_connection_failed", mqtt_host)
 				
 	elif broker_connect_mode == BCM_WAITING_CONNMESSAGE:
 		send_data(first_message_to_server())
@@ -319,6 +322,7 @@ func _ready():
 	print("Username is: "+mqtt_user if mqtt_user != "" else "WARN: Username is empty string!")
 	print("Password is not empty." if mqtt_pass != "" else "WARN: Password is empty string!")
 	MQTTHandler.set_user_pass(mqtt_user, mqtt_pass)
+	
 	MQTTHandler.connect_to_broker(mqtt_host)
 
 func set_last_will(s_topic, s_msg, retain=false, qos=0):
@@ -450,14 +454,15 @@ func connect_to_broker(brokerurl):
 			common_name = broker_server
 		else:
 			broker_connect_mode = BCM_WAITING_SOCKET_CONNECTION
-		
+	
+	mqtt_host = brokerurl
 	return true
 
 
 func disconnect_from_server():
 	if broker_connect_mode == BCM_CONNECTED:
 		send_data(PackedByteArray([0xE0, 0x00]))
-		emit_signal("broker_disconnected")
+		emit_signal("broker_disconnected", mqtt_host)
 	cleanup_sockets()
 	
 
@@ -569,11 +574,11 @@ func wait_msg():
 			print("CONNACK ret=%02x" % retcode)
 		if retcode == 0x00:
 			broker_connect_mode = BCM_CONNECTED
-			emit_signal("broker_connected")
+			emit_signal("broker_connected", mqtt_host)
 		else:
 			if verbose_level:
 				print("Bad connection retcode=", retcode) # see https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
-			emit_signal("broker_connection_failed")
+			emit_signal("broker_connection_failed", mqtt_host)
 
 	elif op == CP_PUBREC:
 		assert (sz == 2)

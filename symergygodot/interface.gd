@@ -4,7 +4,7 @@ extends Control
 
 func _ready():
 	if MQTTHandler.is_connected_to_broker():
-		_on_broker_connected()
+		_on_broker_connected(MQTTHandler.get_broker_hostname())
 	if MQTTHandler.has_meterstructure():
 		_on_meterstructure_broadcast(MQTTHandler.get_meterstructure())
 	
@@ -12,10 +12,10 @@ func _ready():
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
 
-func _on_broker_connected():
+func _on_broker_connected(_mqtt_host):
 	$ConnectingLabel.hide()
 
-func _on_broker_connection_failed():
+func _on_broker_connection_failed(_mqtt_host):
 	$ConnectingLabel.show()
 	$ConnectingLabel.text = "MQTT connection failed! Please restart and try again."
 
