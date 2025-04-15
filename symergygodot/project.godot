@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 MQTTHandler="*res://mqtt_handler.gd"
 Util="*res://util.gd"
+UnitTest="*res://unit_test.gd"
 
 [display]
 
