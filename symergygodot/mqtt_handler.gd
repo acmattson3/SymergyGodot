@@ -51,13 +51,16 @@ func _on_received_message(topic: String, message):
 func _on_broker_connected(in_mqtt_host):
 	print("Connected to the MQTT broker: ", in_mqtt_host)
 	MQTTHandler.subscribe("symergygrid/meterstructure")
+	for comp_id in stored_data.keys():
+		for metric in stored_data[comp_id].keys():
+			request_new_component_metric(comp_id, metric, true)
 
 func _on_broker_connection_failed(in_mqtt_host):
 	print("Failed to connect to the MQTT broker: ", in_mqtt_host)
 
-func request_new_component_metric(comp_id: String, metric: String) -> void:
+func request_new_component_metric(comp_id: String, metric: String, force_resub: bool = false) -> void:
 	if stored_data.has(comp_id):
-		if stored_data[comp_id].has(metric):
+		if stored_data[comp_id].has(metric) and not force_resub:
 			return # We are already subscribed!
 	var topic = "symergygrid/components/"
 	if not meter_structure.has(comp_id):
@@ -291,6 +294,8 @@ func _process(delta):
 var has_login_file: bool = true
 var mqtt_host := BROKER_HOSTNAME
 func _ready():
+	process_mode=PROCESS_MODE_ALWAYS
+	
 	regex_broker_url.compile('^(tcp://|wss://|ws://|ssl://)?([^:\\s]+)(:\\d+)?(/\\S*)?$')
 	if client_id == "":
 		randomize()
