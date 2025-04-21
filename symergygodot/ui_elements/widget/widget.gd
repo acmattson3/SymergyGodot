@@ -13,7 +13,8 @@ signal got_clicked(widget)
 @export var title: String = "Unnamed Widget":
 	set(value):
 		title = value
-		%TitleLabel.text = value
+		if is_inside_tree():
+			%TitleLabel.text = value
 enum WidgetType { NONE, GAUGE, MULTILINE }
 @export var widget_type: WidgetType = WidgetType.NONE
 enum WidgetMode { SINGLE, GROUP, CUSTOM }
@@ -105,9 +106,6 @@ func set_content(new_ui_element):
 	child_node = new_ui_element
 
 func handle_startup():
-	await get_tree().physics_frame
-	await get_tree().physics_frame
-	await get_tree().physics_frame
 	if not child_node:
 		return
 	match widget_type:
@@ -139,3 +137,12 @@ func go_fullscreen():
 func _on_full_screen_button_pressed() -> void:
 	got_clicked.emit(self)
 	go_fullscreen()
+
+func get_widget_data() -> Dictionary:
+	return {
+		"title": title,
+		"type": widget_type,
+		"data_mode": widget_mode,
+		"component_id": curr_component,
+		"max_val": m
+	}
