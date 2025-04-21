@@ -19,6 +19,9 @@ func _process(delta: float) -> void:
 			$WidgetCreationMenu.hide()
 		else:
 			$PauseMenu.do_pause()
+	if Input.is_action_just_pressed("fullscreen"):
+		if widget_in_focus != null:
+			widget_in_focus.go_fullscreen()
 
 func _on_broker_connected(_mqtt_host):
 	$ConnectingLabel.hide()
@@ -102,6 +105,7 @@ func _on_create_widget_button_pressed() -> void:
 			
 			var ui_element: ValueGauge = ValueGauge.create(max_val, balanced_val, min_val, update_int, unit)
 			new_widget = Widget.create(widget_title, ui_element)
+			new_widget.got_clicked.connect(_on_widget_got_clicked)
 			new_widget.widget_type = Widget.WidgetType.GAUGE
 			
 			match data_mode:
@@ -158,3 +162,8 @@ func _on_lookup_box_selection_made(item: String) -> void:
 
 func _on_lookup_line_edit_text_changed(new_text: String) -> void:
 	%LookupBox.search_for(new_text)
+
+var widget_in_focus = null
+func _on_widget_got_clicked(widget):
+	if widget_in_focus != widget:
+		widget_in_focus = widget

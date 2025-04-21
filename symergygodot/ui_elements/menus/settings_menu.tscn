@@ -452,7 +452,7 @@ offset_right = -10.0
 offset_bottom = 29.0
 theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 28
-placeholder_text = "tcp://sssn.us/"
+placeholder_text = "No Broker"
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="SettingsContainer/LeftVBoxContainer"]
 layout_mode = 2

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://byh22hwvlf3wi"]
+[gd_scene load_steps=7 format=3 uid="uid://byh22hwvlf3wi"]
 
 [ext_resource type="Script" path="res://ui_elements/widget/widget.gd" id="1_crytr"]
 [ext_resource type="StyleBox" uid="uid://chfufyeoaf30t" path="res://ui_elements/themes/panel_stylebox.tres" id="2_may34"]
 [ext_resource type="Texture2D" uid="uid://d0aakxe7cc6a7" path="res://ui_elements/graphics/drag_corner.png" id="3_i0th1"]
+[ext_resource type="Texture2D" uid="uid://bc0drg637r151" path="res://ui_elements/graphics/fullscreen.png" id="3_m6fx6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_isjl0"]
 draw_center = false
@@ -18,7 +19,6 @@ custom_minimum_size = Vector2(200, 200)
 offset_right = 673.0
 offset_bottom = 516.0
 script = ExtResource("1_crytr")
-max_size = Vector2(1920, 1080)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -46,11 +46,20 @@ text = "Title"
 clip_text = true
 text_overrun_behavior = 3
 
-[node name="ExitButton" type="Button" parent="VBoxContainer/TitleBar/HBoxContainer"]
+[node name="FullScreenButton" type="Button" parent="VBoxContainer/TitleBar/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_direction = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
+icon = ExtResource("3_m6fx6")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ExitButton" type="Button" parent="VBoxContainer/TitleBar/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_direction = 3
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "X"
 icon_alignment = 1
 expand_icon = true
@@ -95,3 +104,7 @@ grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_i0th1")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="pressed" from="VBoxContainer/TitleBar/HBoxContainer/FullScreenButton" to="." method="_on_full_screen_button_pressed"]
+[connection signal="gui_input" from="VBoxContainer/Content" to="." method="_on_gui_input"]

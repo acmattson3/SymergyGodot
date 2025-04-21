@@ -1,10 +1,10 @@
 extends PanelContainer
 class_name Widget
 
+signal got_clicked(widget)
+
 @export var child_node: Control # The node we are "hosting"
 @export var grid_size: int = 16  # Snap-to-grid size
-@onready var min_size: Vector2 = custom_minimum_size
-@export var max_size: Vector2 = Vector2(600, 600)
 
 @onready var title_bar = $VBoxContainer/TitleBar
 @onready var exit_button = $VBoxContainer/TitleBar/HBoxContainer/ExitButton
@@ -32,16 +32,11 @@ func _ready():
 	exit_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	resize_handle.mouse_default_cursor_shape = Control.CURSOR_FDIAGSIZE
 	
-	#child_node.reparent.call_deferred(content)
-	#print(child_node.get_parent().name)
-	
-	#if child_node != null:
-	#	child_node.reparent(content)
-		#content.add_child(child_node)
+	got_clicked.emit(self)
 
 var curr_component: String = ""
 var curr_metric: String = ""
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	match widget_type:
 		WidgetType.NONE:
 			pass
@@ -50,13 +45,13 @@ func _physics_process(delta: float) -> void:
 				var package = MQTTHandler.get_component_metric(curr_component, curr_metric)
 				if package != null and child_node != null:
 					child_node.set_current_value(package.value)
-				#child_node.set_current_unit(package.unit)
 		WidgetType.MULTILINE:
-			_process_multiline(delta)
+			pass
 
 func _on_title_bar_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			got_clicked.emit(self)
 			_bring_to_front()
 			is_dragging = true
 			drag_offset = event.position
@@ -80,8 +75,10 @@ func _snap_to_grid(pos: Vector2) -> Vector2:
 	)
 
 func _on_resize_handle_gui_input(event):
+	fullscreen = false
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			got_clicked.emit(self)
 			_bring_to_front()
 			is_resizing = true
 			accept_event()
@@ -89,16 +86,17 @@ func _on_resize_handle_gui_input(event):
 			is_resizing = false
 
 	elif event is InputEventMouseMotion and is_resizing:
-		var new_size = (get_global_mouse_position() - global_position).clamp(min_size, max_size)
+		got_clicked.emit(self)
+		var new_size = get_global_mouse_position() - global_position
 		size = _snap_to_grid(new_size)
 		accept_event()
 
 func _on_exit_widget():
 	queue_free()
 
-static func create(title: String, elem) -> Widget:
+static func create(new_title: String, elem) -> Widget:
 	var new_widget = load("res://ui_elements/widget/widget.tscn").instantiate()
-	new_widget.title = title
+	new_widget.title = new_title
 	new_widget.set_content.call_deferred(elem)
 	return new_widget
 
@@ -116,8 +114,28 @@ func handle_startup():
 		WidgetType.MULTILINE:
 			child_node.do_init()
 
-func _process_multiline(delta: float) -> void:
-	return # Ignore this for now
+func _on_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		got_clicked.emit(self)
+		_bring_to_front()
 
-func _process_value_gauge(delta: float) -> void:
-	return
+var fullscreen: bool = false
+var prev_size = null
+var prev_pos = null
+func go_fullscreen():
+	if not fullscreen:
+		_bring_to_front()
+		prev_size = size
+		prev_pos = global_position
+		global_position = Vector2.ZERO
+		var new_size = get_viewport_rect().size
+		size = _snap_to_grid(new_size)
+		fullscreen = true
+	elif prev_size != null and prev_pos != null:
+		size = prev_size
+		global_position = prev_pos
+		fullscreen = false
+
+func _on_full_screen_button_pressed() -> void:
+	got_clicked.emit(self)
+	go_fullscreen()
