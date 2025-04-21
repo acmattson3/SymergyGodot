@@ -48,7 +48,7 @@ func _physics_process(delta: float) -> void:
 		WidgetType.GAUGE:
 			if widget_mode == WidgetMode.SINGLE and curr_component != "":
 				var package = MQTTHandler.get_component_metric(curr_component, curr_metric)
-				if package != null:
+				if package != null and child_node != null:
 					child_node.set_current_value(package.value)
 				#child_node.set_current_unit(package.unit)
 		WidgetType.MULTILINE:

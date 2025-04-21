@@ -1,12 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://d0mlkbg2pyqyg"]
+[gd_scene load_steps=9 format=3 uid="uid://d0mlkbg2pyqyg"]
 
 [ext_resource type="Script" path="res://interface.gd" id="1_yemto"]
 [ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_neno6"]
 [ext_resource type="Theme" uid="uid://do1eo1aba15rq" path="res://ui_elements/themes/main_theme.tres" id="3_iex3g"]
 [ext_resource type="Texture2D" uid="uid://b32ift86e1r3w" path="res://ui_elements/graphics/plus_icon.png" id="4_gjl2n"]
-[ext_resource type="PackedScene" uid="uid://durhwpu222bw4" path="res://ui_elements/LookupLineEdit/lookup_line_edit.tscn" id="5_rlhb0"]
 [ext_resource type="PackedScene" uid="uid://dy2hfp16618ef" path="res://ui_elements/tick_button/tick_button.tscn" id="6_d384x"]
 [ext_resource type="PackedScene" uid="uid://xmnj0a50egcw" path="res://ui_elements/menus/pause_menu.tscn" id="7_diikk"]
+[ext_resource type="PackedScene" uid="uid://bj21iy6v6qopj" path="res://ui_elements/lookup_box/lookup_box.tscn" id="7_v7akk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyhgx"]
+bg_color = Color(0.020579, 0, 0.436867, 1)
 
 [node name="Interface" type="Control"]
 layout_mode = 3
@@ -53,21 +56,22 @@ icon = ExtResource("4_gjl2n")
 expand_icon = true
 
 [node name="WidgetCreationMenu" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.292
 anchor_top = 0.13
 anchor_right = 0.708
 anchor_bottom = 0.87
-offset_left = -0.640076
-offset_top = -0.400009
-offset_right = 0.640015
-offset_bottom = 0.399902
+offset_left = -100.64
+offset_top = -0.399994
+offset_right = 100.64
+offset_bottom = 0.400024
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pyhgx")
 
 [node name="WidgetCreationBars" type="VBoxContainer" parent="WidgetCreationMenu"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="TitleBar" type="Panel" parent="WidgetCreationMenu/WidgetCreationBars"]
@@ -99,15 +103,23 @@ offset_right = -7.0
 offset_bottom = 14.484
 text = "X"
 
-[node name="WidgetTitle" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WidgetTitle" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 
-[node name="WidgetTitleLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/WidgetTitle"]
+[node name="WidgetTitleLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/WidgetTitle"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Widget Title: "
 
-[node name="WidgetTitleLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/WidgetTitle"]
+[node name="WidgetTitleLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/WidgetTitle"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -116,15 +128,15 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 placeholder_text = "Unnamed Widget"
 
-[node name="WidgetType" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+[node name="WidgetType" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 
-[node name="WidgetTypeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/WidgetType"]
+[node name="WidgetTypeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/WidgetType"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Widget Type: "
 
-[node name="WidgetOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/WidgetType"]
+[node name="WidgetOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/WidgetType"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -137,21 +149,21 @@ popup/item_1/id = 1
 popup/item_2/text = "Multiline Graph"
 popup/item_2/id = 2
 
-[node name="GaugeVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+[node name="GaugeVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="DataModeHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="DataModeHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 visible = false
 layout_mode = 2
 
-[node name="DataModeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/DataModeHBox"]
+[node name="DataModeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/DataModeHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Data Selection Mode: "
 
-[node name="DataModeOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/DataModeHBox"]
+[node name="DataModeOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/DataModeHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
@@ -163,39 +175,41 @@ popup/item_1/id = 1
 popup/item_2/text = "Custom"
 popup/item_2/id = 2
 
-[node name="SingleVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="SingleVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/SingleVBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/SingleVBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/SingleVBox/HBoxContainer"]
+[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/SingleVBox/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Component ID: "
 
-[node name="SingleLookupLineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/SingleVBox/HBoxContainer" instance=ExtResource("5_rlhb0")]
+[node name="SingleLookupLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/SingleVBox/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"SettingsLineEdit"
+placeholder_text = "Type to search..."
 
-[node name="GroupVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="GroupVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 visible = false
 layout_mode = 2
 
-[node name="CustomVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="CustomVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 visible = false
 layout_mode = 2
 
-[node name="MetricHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="MetricHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MetricHBox"]
+[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/MetricHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Component Metric: "
 
-[node name="MetricOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MetricHBox"]
+[node name="MetricOptionButton" type="OptionButton" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/MetricHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -209,94 +223,94 @@ popup/item_2/id = 2
 popup/item_3/text = "energy"
 popup/item_3/id = 3
 
-[node name="MaxValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="MaxValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 layout_mode = 2
 
-[node name="MaxValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MaxValueHBox"]
+[node name="MaxValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/MaxValueHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Maximum Gauge Value: "
 
-[node name="MaxValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MaxValueHBox"]
+[node name="MaxValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/MaxValueHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 placeholder_text = "1.0"
 
-[node name="BalValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="BalValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 layout_mode = 2
 
-[node name="BalValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/BalValueHBox"]
+[node name="BalValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/BalValueHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Balanced Gauge Value: "
 
-[node name="BalValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/BalValueHBox"]
+[node name="BalValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/BalValueHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 placeholder_text = "0.0"
 
-[node name="MinValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="MinValueHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 layout_mode = 2
 
-[node name="MinValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MinValueHBox"]
+[node name="MinValueLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/MinValueHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Minimum Gauge Value: "
 
-[node name="MinValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/MinValueHBox"]
+[node name="MinValueLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/MinValueHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 placeholder_text = "-1.0"
 
-[node name="UpdateIntHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="UpdateIntHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 layout_mode = 2
 
-[node name="UpdateIntLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UpdateIntHBox"]
+[node name="UpdateIntLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/UpdateIntHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Update Interval (seconds): "
 
-[node name="UpdateIntLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UpdateIntHBox"]
+[node name="UpdateIntLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/UpdateIntHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 placeholder_text = "0.05"
 
-[node name="UnitHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox"]
+[node name="UnitHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox"]
 layout_mode = 2
 
-[node name="UnitLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UnitHBox"]
+[node name="UnitLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/UnitHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Unit: "
 
-[node name="UnitLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/GaugeVBox/UnitHBox"]
+[node name="UnitLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/UnitHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 
-[node name="MultilineVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+[node name="MultilineVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="TitleHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox"]
+[node name="TitleHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox"]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/TitleHBox"]
+[node name="TitleLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/TitleHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Graph Title: "
 
-[node name="TitleLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/TitleHBox"]
+[node name="TitleLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/TitleHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -304,15 +318,15 @@ theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 placeholder_text = "Untitled Graph"
 
-[node name="XAxisHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox"]
+[node name="XAxisHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox"]
 layout_mode = 2
 
-[node name="XAxisLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/XAxisHBox"]
+[node name="XAxisLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/XAxisHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "X Axis Label: "
 
-[node name="XAxisLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/XAxisHBox"]
+[node name="XAxisLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/XAxisHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -320,15 +334,15 @@ theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 placeholder_text = "Time (s)"
 
-[node name="YAxisHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox"]
+[node name="YAxisHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox"]
 layout_mode = 2
 
-[node name="YAxisLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/YAxisHBox"]
+[node name="YAxisLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/YAxisHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Y Axis Label: "
 
-[node name="YAxisLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/YAxisHBox"]
+[node name="YAxisLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/YAxisHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -336,15 +350,15 @@ theme_type_variation = &"SettingsLineEdit"
 theme_override_font_sizes/font_size = 24
 placeholder_text = "Variable"
 
-[node name="SampleSizeHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox"]
+[node name="SampleSizeHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox"]
 layout_mode = 2
 
-[node name="SampleSizeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/SampleSizeHBox"]
+[node name="SampleSizeLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/SampleSizeHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Sample Size: "
 
-[node name="TickButton" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/SampleSizeHBox" instance=ExtResource("6_d384x")]
+[node name="TickButton" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/SampleSizeHBox" instance=ExtResource("6_d384x")]
 unique_name_in_owner = true
 layout_mode = 2
 value = 60.0
@@ -352,53 +366,59 @@ max_value = 3600.0
 min_value = 5.0
 step_size = 15.0
 
-[node name="ComponentsHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox"]
+[node name="ComponentsHBox" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/ComponentsHBox"]
+[node name="Label" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/ComponentsHBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Add Component to List: "
 
-[node name="LookupLineEdit" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/ComponentsHBox" instance=ExtResource("5_rlhb0")]
+[node name="LookupLineEdit" type="LineEdit" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/ComponentsHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"SettingsLineEdit"
+placeholder_text = "Type to search..."
 
-[node name="CurrCompsLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox"]
+[node name="CurrCompsLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox"]
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 text = "Current Components: "
 
-[node name="CurrCompsVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/MultilineVBox"]
+[node name="CurrCompsVBox" type="VBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="WidgetCreationMenu/WidgetCreationBars"]
+[node name="Spacer" type="Control" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars"]
+[node name="HBoxContainer" type="HBoxContainer" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 
-[node name="ErrorLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer"]
+[node name="ErrorLabel" type="Label" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 theme_override_colors/font_color = Color(0.831373, 0, 0, 1)
 theme_override_font_sizes/font_size = 24
 
-[node name="Spacer" type="Control" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer"]
+[node name="Spacer" type="Control" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreateWidgetButton" type="Button" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer"]
+[node name="CreateWidgetButton" type="Button" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(175, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 24
 text = "Create Widget"
+
+[node name="LookupBox" parent="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2" instance=ExtResource("7_v7akk")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="ConnectingLabel" type="Label" parent="."]
 layout_mode = 0
@@ -414,6 +434,8 @@ layout_mode = 1
 
 [connection signal="pressed" from="WidgetButton" to="." method="_on_widget_button_pressed"]
 [connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/TitleBar/ExitButton" to="." method="_on_widget_button_pressed"]
-[connection signal="item_selected" from="WidgetCreationMenu/WidgetCreationBars/WidgetType/WidgetOptionButton" to="." method="_on_widget_option_button_item_selected"]
-[connection signal="selection_made" from="WidgetCreationMenu/WidgetCreationBars/MultilineVBox/ComponentsHBox/LookupLineEdit" to="." method="_on_lookup_line_edit_selection_made"]
-[connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer/CreateWidgetButton" to="." method="_on_create_widget_button_pressed"]
+[connection signal="item_selected" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/WidgetType/WidgetOptionButton" to="." method="_on_widget_option_button_item_selected"]
+[connection signal="text_changed" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/SingleVBox/HBoxContainer/SingleLookupLineEdit" to="." method="_on_lookup_line_edit_text_changed"]
+[connection signal="text_changed" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/MultilineVBox/ComponentsHBox/LookupLineEdit" to="." method="_on_lookup_line_edit_text_changed"]
+[connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/HBoxContainer/CreateWidgetButton" to="." method="_on_create_widget_button_pressed"]
+[connection signal="selection_made" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/LookupBox" to="." method="_on_lookup_box_selection_made"]

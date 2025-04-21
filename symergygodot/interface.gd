@@ -23,8 +23,7 @@ func _on_meterstructure_broadcast(meter_structure: Dictionary):
 	var id_list: Array[String] = []
 	for key in meter_structure.keys():
 		id_list.append(key)
-	%SingleLookupLineEdit.set_lookup_list(id_list)
-	%LookupLineEdit.set_lookup_list(id_list)
+	%LookupBox.set_lookup_list(id_list)
 
 # Open widget creation menu
 func _on_widget_button_pressed() -> void:
@@ -36,10 +35,20 @@ func _on_widget_option_button_item_selected(index: int) -> void:
 	if widget_type == index:
 		return
 	
+	%LookupBox.search_for()
+	
 	# Hide open widget-specific menus
-	for child in $WidgetCreationMenu/WidgetCreationBars.get_children():
+	for child in %WidgetCreationBars.get_children():
 		if child.name.count("VBox") > 0:
 			child.hide()
+	
+	match widget_type:
+		Widget.WidgetType.NONE:
+			pass
+		Widget.WidgetType.GAUGE:
+			%GaugeVBox.hide()
+		Widget.WidgetType.MULTILINE:
+			%MultilineVBox.hide()
 	
 	widget_type = index
 	match widget_type:
@@ -126,8 +135,18 @@ func _on_create_widget_button_pressed() -> void:
 		print("Unable to instantiate widget!")
 		%ErrorLabel.text = "Please choose a widget type!"
 
-func _on_lookup_line_edit_selection_made(item: String) -> void:
-	var new_comp = load("res://ui_elements/listed_component/listed_component.tscn").instantiate()
-	new_comp.set_component_name(item)
-	%CurrCompsVBox.add_child(new_comp)
-	%LookupLineEdit.text = ""
+func _on_lookup_box_selection_made(item: String) -> void:
+	%LookupBox.search_for()
+	match widget_type:
+		Widget.WidgetType.NONE:
+			pass
+		Widget.WidgetType.GAUGE:
+			%SingleLookupLineEdit.text = item
+		Widget.WidgetType.MULTILINE:
+			var new_comp = load("res://ui_elements/listed_component/listed_component.tscn").instantiate()
+			new_comp.set_component_name(item)
+			%CurrCompsVBox.add_child(new_comp)
+			%LookupLineEdit.text = ""
+
+func _on_lookup_line_edit_text_changed(new_text: String) -> void:
+	%LookupBox.search_for(new_text)
