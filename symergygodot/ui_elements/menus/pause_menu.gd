@@ -1,14 +1,12 @@
 extends Control
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("escape"):
-		if visible:
-			if $SettingsMenu.visible:
-				$SettingsMenu.hide()
-			else:
-				_on_unpause_pressed()
+	if Input.is_action_just_pressed("escape") and visible:
+		await get_tree().process_frame
+		if $SettingsMenu.visible:
+			$SettingsMenu.hide()
 		else:
-			do_pause()
+			_on_unpause_pressed()
 
 func _on_settings_pressed() -> void:
 	$SettingsMenu.show()

@@ -12,6 +12,14 @@ func _ready():
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("escape"):
+		await get_tree().process_frame
+		if $WidgetCreationMenu.visible:
+			$WidgetCreationMenu.hide()
+		else:
+			$PauseMenu.do_pause()
+
 func _on_broker_connected(_mqtt_host):
 	$ConnectingLabel.hide()
 
