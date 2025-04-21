@@ -1,10 +1,15 @@
 extends Node
 
+var do_unit_tests: bool = false
+
 func _ready():
-	var args = OS.get_cmdline_args()
-	for i in range(args.size()):
-		if args[i] == "--run-tests":
-			run_tests()
+	if not do_unit_tests:
+		var args = OS.get_cmdline_args()
+		for i in range(args.size()):
+			if args[i] == "--run-tests":
+				run_tests()
+	else:
+		run_tests()
 
 var continue_on_fail: bool = true
 func run_tests(continue_on_failure: bool = true) -> void:
