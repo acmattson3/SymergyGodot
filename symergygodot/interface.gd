@@ -18,120 +18,12 @@ func _ready():
 
 func _on_loaded_save_state(save_state: Dictionary):
 	for widget_name in save_state.widgets.keys():
-		var widget = create_widget(save_state.widgets[widget_name])
-		if widget != null:
-			var new_widget: Widget = widget
-			widgets.add_child.call_deferred(new_widget)
-			new_widget.handle_startup()
-		else:
-			print("Invalid widget in save state!")
-
-func create_widget(widget_data: Dictionary = {}):
-	var widget_title = widget_data.title if widget_data != {} else %WidgetTitleLineEdit.text
-	
-	if widget_data == {}:
-		widget_type = widget_data.type
-	
-	var new_widget: Widget = null
-	match widget_type:
-		Widget.WidgetType.NONE:
-			pass
-		Widget.WidgetType.GAUGE:
-			var data_mode: int
-			if widget_data != {}:
-				data_mode = widget_data.data_mode
-			else:
-				data_mode = %DataModeOptionButton.selected
-			match data_mode:
-				0: # Single
-					var component_id: String
-					if widget_data != {}:
-						component_id = widget_data.component_id
-					else:
-						component_id = %SingleLookupLineEdit.text
-					if component_id == "":
-						%ErrorLabel.text = "Please choose a component!"
-						return
-				1: # Group
-					pass
-				2: # Custom
-					pass
-			var max_val
-			var balanced_val
-			var min_val
-			var update_int
-			var unit
-			if widget_data != {}:
-				max_val = widget_data.max_val
-				balanced_val = widget_data.balanced_val
-				min_val = widget_data.min_val
-				update_int = widget_data.update_int
-				unit = widget_data.unit
-			else:
-				max_val = float(%MaxValueLineEdit.text if %MaxValueLineEdit.text!="" else %MaxValueLineEdit.placeholder_text)
-				balanced_val = float(%BalValueLineEdit.text if %BalValueLineEdit.text!="" else %BalValueLineEdit.placeholder_text)
-				min_val = float(%MinValueLineEdit.text if %MinValueLineEdit.text!="" else %MinValueLineEdit.placeholder_text)
-				update_int = float(%UpdateIntLineEdit.text if %UpdateIntLineEdit.text!="" else %UpdateIntLineEdit.placeholder_text)
-				unit = %UnitLineEdit.text
-			
-			if max_val <= min_val:
-				%ErrorLabel.text = "Max value must be greater than min value!"
-				return
-			if not Util.val_in_interval(balanced_val, min_val, max_val, false):
-				%ErrorLabel.text = "Balanced value must be between min and max values!"
-				return
-			
-			var ui_element: ValueGauge = ValueGauge.create(max_val, balanced_val, min_val, update_int, unit)
-			new_widget = Widget.create(widget_title, ui_element)
-			new_widget.got_clicked.connect(_on_widget_got_clicked)
-			new_widget.widget_type = Widget.WidgetType.GAUGE
-			
-			match data_mode:
-				0: # Single
-					var component_id: String
-					var component_metric: String
-					if widget_data != {}:
-						component_id = widget_data.component_id
-						component_metric = widget_data.component_metric
-					else:
-						component_id = %SingleLookupLineEdit.text
-						component_metric = ["voltage", "current", "power", "energy"][%MetricOptionButton.selected]
-					MQTTHandler.request_new_component_metric(component_id, component_metric)
-					new_widget.curr_component = component_id
-					new_widget.curr_metric = component_metric
-				1: # Group
-					pass
-				2: # Custom
-					pass
-			
-		Widget.WidgetType.MULTILINE:
-			var ui_element: MultilineGraph = MultilineGraph.create()
-			
-			if %CurrCompsVBox.get_child_count() <= 0:
-				%ErrorLabel.text = "Please add at least one component!"
-				return
-			for child in %CurrCompsVBox.get_children():
-				ui_element.add_graphed_component(child.get_component_name(), child.get_color(), child.get_metric())
-				MQTTHandler.request_new_component_metric(child.get_component_name(), child.get_metric())
-			ui_element.max_samples = %TickButton.value + 1
-			if %TitleLineEdit.text != "":
-				ui_element.graph_title = %TitleLineEdit.text
-			if %YAxisLineEdit.text != "":
-				ui_element.y_label = %YAxisLineEdit.text
-			if %XAxisLineEdit.text != "":
-				ui_element.x_label = %XAxisLineEdit.text
-			new_widget = Widget.create(widget_title, ui_element)
-			new_widget.widget_type = Widget.WidgetType.MULTILINE
-	
-	if new_widget != null:
-		widgets.add_child(new_widget)
-		new_widget.handle_startup()
-		$WidgetCreationMenu.visible = !$WidgetCreationMenu.visible
-		if widget_data == {}:
-			SaveManager.add_widget_data(new_widget.get_widget_data())
-	else:
-		print("Unable to instantiate widget!")
-		%ErrorLabel.text = "Please choose a widget type!"
+		var widget = save_state.widgets[widget_name]
+		match widget.type:
+			Widget.WidgetType.GAUGE:
+				create_gauge_widget(widget)
+			Widget.WidgetType.MULTILINE:
+				create_multiline_widget(widget)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("escape"):
@@ -192,7 +84,111 @@ func _on_widget_option_button_item_selected(index: int) -> void:
 			%MultilineVBox.show()
 
 func _on_create_widget_button_pressed() -> void:
-	create_widget()
+	var widget_title = %WidgetTitleLineEdit.text
+	
+	match widget_type:
+		Widget.WidgetType.NONE:
+			print("Unable to instantiate widget!")
+			%ErrorLabel.text = "Please choose a widget type!"
+			return
+		
+		Widget.WidgetType.GAUGE:
+			var max_val = float(%MaxValueLineEdit.text if %MaxValueLineEdit.text!="" else %MaxValueLineEdit.placeholder_text)
+			var balanced_val = float(%BalValueLineEdit.text if %BalValueLineEdit.text!="" else %BalValueLineEdit.placeholder_text)
+			var min_val = float(%MinValueLineEdit.text if %MinValueLineEdit.text!="" else %MinValueLineEdit.placeholder_text)
+			var update_int = float(%UpdateIntLineEdit.text if %UpdateIntLineEdit.text!="" else %UpdateIntLineEdit.placeholder_text)
+			var component_id: String = %SingleLookupLineEdit.text
+			var component_metric: String = ["voltage", "current", "power", "energy"][%MetricOptionButton.selected]
+			
+			if component_id == "":
+				%ErrorLabel.text = "Please choose a component!"
+				return
+			if max_val <= min_val:
+				%ErrorLabel.text = "Max value must be greater than min value!"
+				return
+			if not Util.val_in_interval(balanced_val, min_val, max_val, false):
+				%ErrorLabel.text = "Balanced value must be between min and max values!"
+				return
+			
+			var widget = {
+				"title": widget_title,
+				"value_max": max_val,
+				"value_bal": balanced_val,
+				"value_min": min_val,
+				"update_interval": update_int,
+				"curr_component": component_id,
+				"curr_metric": component_metric,
+			}
+			create_gauge_widget(widget)
+		
+		Widget.WidgetType.MULTILINE:
+			var graph_title: String = %TitleLineEdit.text
+			var y_label: String = %YAxisLineEdit.text
+			var x_label: String = %XAxisLineEdit.text
+			var max_samples: int = %TickButton.value + 1
+			var component_list: Array[Dictionary] = []
+			
+			if %CurrCompsVBox.get_child_count() <= 0:
+				%ErrorLabel.text = "Please add at least one component!"
+				return
+			for child in %CurrCompsVBox.get_children():
+				component_list.append({
+					"comp_name": child.get_component_name(), 
+					"color": child.get_color(), 
+					"metric": child.get_metric()
+				})
+			
+			var widget = {
+				"title": widget_title,
+				"graph_title": graph_title,
+				"y_label": y_label,
+				"x_label": x_label,
+				"max_samples": max_samples,
+				"component_list": component_list
+			}
+			create_multiline_widget(widget)
+	
+	$WidgetCreationMenu.hide()
+
+func create_widget(ui_element, widget_type, widget) -> void:
+	var new_widget: Widget = null
+	new_widget = Widget.create(widget.title, ui_element)
+	new_widget.got_clicked.connect(_on_widget_got_clicked)
+	new_widget.widget_type = widget_type
+	
+	if widget.has("size"):
+		new_widget.size = widget.size
+	if widget.has("position"):
+		new_widget.global_position = widget.position
+	
+	if new_widget != null:
+		widgets.add_child(new_widget)
+		new_widget.handle_startup()
+
+func create_gauge_widget(widget: Dictionary) -> void:
+	var ui_element: ValueGauge = ValueGauge.create(widget.value_max, widget.value_bal, widget.value_min, widget.update_interval)
+	
+	MQTTHandler.request_new_component_metric(widget.curr_component, widget.curr_metric)
+	ui_element.curr_component = widget.curr_component
+	ui_element.curr_metric = widget.curr_metric
+	
+	create_widget(ui_element, Widget.WidgetType.GAUGE, widget)
+
+func create_multiline_widget(widget: Dictionary) -> void:	
+	var ui_element: MultilineGraph = MultilineGraph.create()
+	
+	if widget.component_list.size() <= 0:
+		%ErrorLabel.text = "Please add at least one component!"
+		return
+	for comp: Dictionary in widget.component_list:
+		ui_element.add_graphed_component(comp.comp_name, comp.color, comp.metric)
+		MQTTHandler.request_new_component_metric(comp.comp_name, comp.metric)
+	ui_element.max_samples = widget.max_samples
+	ui_element.graph_title = widget.graph_title
+	ui_element.y_label = widget.y_label
+	ui_element.x_label = widget.x_label
+	
+	create_widget(ui_element, Widget.WidgetType.MULTILINE, widget)
 
 func _on_lookup_box_selection_made(item: String) -> void:
 	%LookupBox.search_for()

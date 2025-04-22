@@ -13,8 +13,7 @@ signal got_clicked(widget)
 @export var title: String = "Unnamed Widget":
 	set(value):
 		title = value
-		if is_inside_tree():
-			%TitleLabel.text = value
+		%TitleLabel.text = value
 enum WidgetType { NONE, GAUGE, MULTILINE }
 @export var widget_type: WidgetType = WidgetType.NONE
 enum WidgetMode { SINGLE, GROUP, CUSTOM }
@@ -35,20 +34,6 @@ func _ready():
 	
 	got_clicked.emit(self)
 
-var curr_component: String = ""
-var curr_metric: String = ""
-func _physics_process(_delta: float) -> void:
-	match widget_type:
-		WidgetType.NONE:
-			pass
-		WidgetType.GAUGE:
-			if widget_mode == WidgetMode.SINGLE and curr_component != "":
-				var package = MQTTHandler.get_component_metric(curr_component, curr_metric)
-				if package != null and child_node != null:
-					child_node.set_current_value(package.value)
-		WidgetType.MULTILINE:
-			pass
-
 func _on_title_bar_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -58,6 +43,7 @@ func _on_title_bar_gui_input(event):
 			drag_offset = event.position
 			accept_event()
 		elif not event.pressed:
+			SaveManager.add_widget_data(self)
 			is_dragging = false
 
 	elif event is InputEventMouseMotion and is_dragging:
@@ -84,6 +70,7 @@ func _on_resize_handle_gui_input(event):
 			is_resizing = true
 			accept_event()
 		elif not event.pressed:
+			SaveManager.add_widget_data(self)
 			is_resizing = false
 
 	elif event is InputEventMouseMotion and is_resizing:
@@ -93,6 +80,7 @@ func _on_resize_handle_gui_input(event):
 		accept_event()
 
 func _on_exit_widget():
+	SaveManager.remove_widget_data(self)
 	queue_free()
 
 static func create(new_title: String, elem) -> Widget:
@@ -106,8 +94,13 @@ func set_content(new_ui_element):
 	child_node = new_ui_element
 
 func handle_startup():
+	for i in 3:
+		await get_tree().physics_frame
 	if not child_node:
 		return
+	
+	SaveManager.add_widget_data(self)
+	
 	match widget_type:
 		WidgetType.MULTILINE:
 			child_node.do_init()
@@ -137,12 +130,3 @@ func go_fullscreen():
 func _on_full_screen_button_pressed() -> void:
 	got_clicked.emit(self)
 	go_fullscreen()
-
-func get_widget_data() -> Dictionary:
-	return {
-		"title": title,
-		"type": widget_type,
-		"data_mode": widget_mode,
-		"component_id": curr_component,
-		"max_val": m
-	}

@@ -11,6 +11,19 @@ var graphed_components: Array[String] = []
 var graphed_component_colors: Array[Color] = []
 var graphed_component_metrics: Array[String] = []
 
+func get_component_dict_array() -> Array:
+	var comp_array = []
+	
+	for i in range(graphed_components.size()):
+		var comp_dict = {}
+		comp_dict["comp_name"] = graphed_components[i]
+		comp_dict["color"] = graphed_component_colors[i]
+		comp_dict["metric"] = graphed_component_metrics[i]
+		
+		comp_array.append(comp_dict)
+	
+	return comp_array
+
 func add_graphed_component(new_component: String, color: Color, metric: String) -> void:
 	if done_init:
 		return # We can't add a new function if we have initialized!
