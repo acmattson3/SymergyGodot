@@ -1,12 +1,12 @@
 extends AspectRatioContainer
 class_name ValueGauge
 
-@export var balanced_value: float = 0.0
+@export var value_bal: float = 0.0
 @export var value_min: float = -1.0
 @export var value_max: float = 1.0
-@export var update_interval: float = 0.05:
+@export var update_interval: float = 0.25:
 	set(value):
-		update_interval = value if value >= 0.05 else 0.05
+		update_interval = value if value >= 0.25 else 0.25
 @export var unit: String = ""
 @onready var update_elapsed: float = update_interval
 var current_value: float = 1.23456789: 
@@ -14,6 +14,8 @@ var current_value: float = 1.23456789:
 		current_value = clamp(value, value_min, value_max)
 		var rounded_val = "%.2f" % (value)
 		$GaugeBody/Label.text = rounded_val+" "+unit
+var curr_component: String = ""
+var curr_metric: String = ""
 
 const max_rot_angle: float = 135.0
 @onready var guage_needle = $GaugeNeedle
@@ -22,7 +24,7 @@ const max_rot_angle: float = 135.0
 
 @onready var start_size: Vector2 = Vector2(250.0, 250.0)
 func _ready() -> void:
-	set_current_value(balanced_value)
+	set_current_value(value_bal)
 
 func set_needle_offset():
 	var new_ratio: float = guage_needle.size.x/start_size.x
@@ -40,6 +42,13 @@ var target_angle = 0.0
 func _physics_process(delta: float) -> void:
 	if testing_mode:
 		time += delta
+	
+	if curr_component != "":
+		var package = MQTTHandler.get_component_metric(curr_component, curr_metric)
+		if package != null:
+			set_current_value(package.value)
+			if package.has("unit"):
+				unit = package.unit
 	
 	update_elapsed += delta
 	if update_elapsed >= update_interval and current_value != 1.23456789:
@@ -59,12 +68,10 @@ func _physics_process(delta: float) -> void:
 	guage_needle.rotation_degrees = lerpf(guage_needle.rotation_degrees, target_angle, 5.0*delta)
 	set_needle_offset()
 
-static func create(max: float, bal: float, min: float, update_int: float, unit: String) -> ValueGauge:
+static func create(max: float, bal: float, min: float) -> ValueGauge:
 	var new_gauge: ValueGauge = load("res://ui_elements/value_gauge/value_gauge.tscn").instantiate()
 	new_gauge.value_max = max
 	new_gauge.value_min = min
-	new_gauge.balanced_value = bal
-	new_gauge.update_interval = update_int
-	new_gauge.unit = unit
+	new_gauge.value_bal = bal
 	
 	return new_gauge
