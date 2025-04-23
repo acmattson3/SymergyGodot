@@ -37,6 +37,8 @@ size_flags_vertical = 10
 focus_mode = 0
 text = "▼"
 
+[connection signal="focus_exited" from="HBoxContainer/ValueLabel" to="." method="_on_value_label_focus_exited"]
 [connection signal="text_changed" from="HBoxContainer/ValueLabel" to="." method="_on_value_label_text_changed"]
+[connection signal="text_submitted" from="HBoxContainer/ValueLabel" to="." method="_on_value_label_text_submitted"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ButtonUp" to="." method="_on_button_up_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ButtonDown" to="." method="_on_button_down_pressed"]

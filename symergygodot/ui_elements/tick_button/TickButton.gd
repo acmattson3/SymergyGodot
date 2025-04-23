@@ -35,7 +35,7 @@ func _on_button_down_pressed():
 	$HBoxContainer/ValueLabel.text = str(value)
 	value_changed.emit(value)
 
-func _on_value_label_text_changed(new_text: String) -> void:
+func _on_value_label_text_submitted(new_text: String) -> void:
 	value = float(new_text)
 	if value < min_value:
 		value = min_value
@@ -45,4 +45,6 @@ func _on_value_label_text_changed(new_text: String) -> void:
 		$HBoxContainer/ValueLabel.text = str(value)
 		
 	value_changed.emit(value)
-	
+
+func _on_value_label_focus_exited() -> void:
+	_on_value_label_text_submitted($HBoxContainer/ValueLabel.text)
