@@ -4,9 +4,9 @@ class_name ValueGauge
 @export var value_bal: float = 0.0
 @export var value_min: float = -1.0
 @export var value_max: float = 1.0
-@export var update_interval: float = 0.05:
+@export var update_interval: float = 0.25:
 	set(value):
-		update_interval = value if value >= 0.05 else 0.05
+		update_interval = value if value >= 0.25 else 0.25
 @export var unit: String = ""
 @onready var update_elapsed: float = update_interval
 var current_value: float = 1.23456789: 
@@ -68,11 +68,10 @@ func _physics_process(delta: float) -> void:
 	guage_needle.rotation_degrees = lerpf(guage_needle.rotation_degrees, target_angle, 5.0*delta)
 	set_needle_offset()
 
-static func create(max: float, bal: float, min: float, update_int: float) -> ValueGauge:
+static func create(max: float, bal: float, min: float) -> ValueGauge:
 	var new_gauge: ValueGauge = load("res://ui_elements/value_gauge/value_gauge.tscn").instantiate()
 	new_gauge.value_max = max
 	new_gauge.value_min = min
 	new_gauge.value_bal = bal
-	new_gauge.update_interval = update_int
 	
 	return new_gauge

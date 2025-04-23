@@ -79,6 +79,9 @@ func _on_resize_handle_gui_input(event):
 		size = _snap_to_grid(new_size)
 		accept_event()
 
+func terminate() -> void:
+	_on_exit_widget()
+
 func _on_exit_widget():
 	SaveManager.remove_widget_data(self)
 	queue_free()
@@ -130,3 +133,6 @@ func go_fullscreen():
 func _on_full_screen_button_pressed() -> void:
 	got_clicked.emit(self)
 	go_fullscreen()
+
+func _on_edit_button_pressed() -> void:
+	Util.edit_widget.emit(self)

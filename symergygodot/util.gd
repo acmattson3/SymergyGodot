@@ -1,5 +1,7 @@
 extends Node
 
+signal edit_widget(widget)
+
 func get_dict_from_json_string(json_string: String):
 	var json = JSON.new()
 	var error = json.parse(json_string)

@@ -15,6 +15,51 @@ func _ready():
 	SaveManager.loaded_save_state.connect(_on_loaded_save_state)
 	if SaveManager.is_save_state_loaded():
 		_on_loaded_save_state(SaveManager.get_save_state())
+	
+	Util.edit_widget.connect(_on_edit_widget)
+
+var editing: bool = false:
+	set(value):
+		editing = value
+		%TitleLabel.text = "Edit Widget" if editing else "Create Widget"
+		clear_creation_menu()
+		if not editing:
+			widget_editing = null
+var widget_editing = null
+func _on_edit_widget(widget: Widget):
+	widget_editing = widget
+	editing = true
+	$WidgetCreationMenu.show()
+	%WidgetTitleLineEdit.text = widget.title
+	%WidgetOptionButton.selected = widget.widget_type
+	
+	widget_type = widget.widget_type
+	match widget.widget_type:
+		Widget.WidgetType.GAUGE:
+			%GaugeVBox.show()
+			%MaxValueLineEdit.text = str(widget.child_node.value_max)
+			%BalValueLineEdit.text = str(widget.child_node.value_bal)
+			%MinValueLineEdit.text = str(widget.child_node.value_min)
+			%SingleLookupLineEdit.text = widget.child_node.curr_component
+			%MetricOptionButton.selected = ["voltage", "current", "power", "energy"].find(widget.child_node.curr_metric)
+		Widget.WidgetType.MULTILINE:
+			%MultilineVBox.show()
+			%TitleLineEdit.text = widget.child_node.graph_title
+			%YAxisLineEdit.text = widget.child_node.y_label
+			%XAxisLineEdit.text = widget.child_node.x_label
+			%TickButton.value = widget.child_node.max_samples - 1
+			for i in widget.child_node.graphed_components.size():
+				var comp = widget.child_node.graphed_components[i]
+				var color = widget.child_node.graphed_component_colors[i]
+				var metric = widget.child_node.graphed_component_metrics[i]
+				
+				var new_comp = load("res://ui_elements/listed_component/listed_component.tscn").instantiate()
+				new_comp.set_component_name(comp)
+				new_comp.color = color
+				new_comp.metric = metric
+				%CurrCompsVBox.add_child(new_comp)
+		_:
+			return
 
 func _on_loaded_save_state(save_state: Dictionary):
 	for widget_name in save_state.widgets.keys():
@@ -30,6 +75,7 @@ func _process(delta: float) -> void:
 		await get_tree().process_frame
 		if $WidgetCreationMenu.visible:
 			$WidgetCreationMenu.hide()
+			editing = false
 		else:
 			$PauseMenu.do_pause()
 	if Input.is_action_just_pressed("fullscreen"):
@@ -51,6 +97,7 @@ func _on_meterstructure_broadcast(meter_structure: Dictionary):
 
 # Open widget creation menu
 func _on_widget_button_pressed() -> void:
+	editing = false
 	$WidgetCreationMenu.visible = !$WidgetCreationMenu.visible
 
 # Instantiating Widgets
@@ -96,7 +143,6 @@ func _on_create_widget_button_pressed() -> void:
 			var max_val = float(%MaxValueLineEdit.text if %MaxValueLineEdit.text!="" else %MaxValueLineEdit.placeholder_text)
 			var balanced_val = float(%BalValueLineEdit.text if %BalValueLineEdit.text!="" else %BalValueLineEdit.placeholder_text)
 			var min_val = float(%MinValueLineEdit.text if %MinValueLineEdit.text!="" else %MinValueLineEdit.placeholder_text)
-			var update_int = float(%UpdateIntLineEdit.text if %UpdateIntLineEdit.text!="" else %UpdateIntLineEdit.placeholder_text)
 			var component_id: String = %SingleLookupLineEdit.text
 			var component_metric: String = ["voltage", "current", "power", "energy"][%MetricOptionButton.selected]
 			
@@ -115,7 +161,6 @@ func _on_create_widget_button_pressed() -> void:
 				"value_max": max_val,
 				"value_bal": balanced_val,
 				"value_min": min_val,
-				"update_interval": update_int,
 				"curr_component": component_id,
 				"curr_metric": component_metric,
 			}
@@ -150,23 +195,49 @@ func _on_create_widget_button_pressed() -> void:
 	
 	$WidgetCreationMenu.hide()
 
+func clear_creation_menu() -> void:
+	%ErrorLabel.text = ""
+	%GaugeVBox.hide()
+	%MultilineVBox.hide()
+	%WidgetTitleLineEdit.text = ""
+	%WidgetOptionButton.selected = 0
+	%MaxValueLineEdit.text = ""
+	%BalValueLineEdit.text = ""
+	%MinValueLineEdit.text = ""
+	%SingleLookupLineEdit.text = ""
+	%MetricOptionButton.selected = 0
+	%TitleLineEdit.text = ""
+	%YAxisLineEdit.text = ""
+	%XAxisLineEdit.text = ""
+	%TickButton.value = 60
+	widget_type = 0
+	for child in %CurrCompsVBox.get_children():
+		child.queue_free()
+
 func create_widget(ui_element, widget_type, widget) -> void:
 	var new_widget: Widget = null
 	new_widget = Widget.create(widget.title, ui_element)
 	new_widget.got_clicked.connect(_on_widget_got_clicked)
 	new_widget.widget_type = widget_type
 	
+	if widget.has("name"):
+		new_widget.name = widget.name
 	if widget.has("size"):
 		new_widget.size = widget.size
 	if widget.has("position"):
 		new_widget.global_position = widget.position
 	
+	if widget_editing != null:
+		new_widget.size = widget_editing.size
+		new_widget.global_position = widget_editing.global_position
+		widget_editing.terminate()
+	
 	if new_widget != null:
-		widgets.add_child(new_widget)
+		widgets.add_child(new_widget, true)
 		new_widget.handle_startup()
 
 func create_gauge_widget(widget: Dictionary) -> void:
-	var ui_element: ValueGauge = ValueGauge.create(widget.value_max, widget.value_bal, widget.value_min, widget.update_interval)
+	var ui_element: ValueGauge = ValueGauge.create(widget.value_max, widget.value_bal, widget.value_min)
 	
 	MQTTHandler.request_new_component_metric(widget.curr_component, widget.curr_metric)
 	ui_element.curr_component = widget.curr_component

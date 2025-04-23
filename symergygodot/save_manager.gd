@@ -101,7 +101,8 @@ func add_widget_data(widget: Widget):
 		"title": widget.title,
 		"position": widget.global_position,
 		"size": widget.size,
-		"type": widget.widget_type
+		"type": widget.widget_type,
+		"name": widget.name
 	}
 	
 	if widget.child_node == null:
@@ -112,7 +113,6 @@ func add_widget_data(widget: Widget):
 			new_widget_data["value_max"] = widget.child_node.value_max
 			new_widget_data["value_bal"] = widget.child_node.value_bal
 			new_widget_data["value_min"] = widget.child_node.value_min
-			new_widget_data["update_interval"] = widget.child_node.update_interval
 			new_widget_data["curr_component"] = widget.child_node.curr_component
 			new_widget_data["curr_metric"] = widget.child_node.curr_metric
 		Widget.WidgetType.MULTILINE:
@@ -129,6 +129,7 @@ func add_widget_data(widget: Widget):
 
 func remove_widget_data(widget: Widget):
 	save_state["widgets"].erase(widget.name)
+	_save_game_to_file.call_deferred()
 
 func new_save_file(new_save: String):
 	curr_save = new_save
