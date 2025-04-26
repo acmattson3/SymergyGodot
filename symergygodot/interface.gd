@@ -1,5 +1,7 @@
 extends Control
 
+signal interface_gui_input(event: InputEvent)
+
 @onready var widgets: Control = $Widgets
 
 func _ready():
@@ -281,3 +283,6 @@ var widget_in_focus = null
 func _on_widget_got_clicked(widget):
 	if widget_in_focus != widget:
 		widget_in_focus = widget
+
+func _on_widgets_gui_input(event: InputEvent) -> void:
+	interface_gui_input.emit(event)

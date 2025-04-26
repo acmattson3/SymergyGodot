@@ -13,14 +13,13 @@ config_version=5
 config/name="SymergyGodot"
 run/main_scene="res://ui_elements/menus/main_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://icon.svg"
 
 [autoload]
 
-MQTTHandler="*res://mqtt_handler.gd"
-Util="*res://util.gd"
-UnitTest="*res://unit_test.gd"
-SaveManager="*res://save_manager.gd"
+MQTTHandler="*res://globals/mqtt_handler.gd"
+Util="*res://globals/util.gd"
+UnitTest="*res://testing/unit_test.gd"
+SaveManager="*res://globals/save_manager.gd"
 
 [display]
 

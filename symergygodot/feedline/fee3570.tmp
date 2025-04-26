@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://qbwdcecvobe2"]
+
+[ext_resource type="Script" path="res://feedline/feedline.gd" id="1_bgkt2"]
+[ext_resource type="PackedScene" uid="uid://d0mlkbg2pyqyg" path="res://interface.tscn" id="2_y2j81"]
+
+[node name="Feedline" type="Node2D"]
+script = ExtResource("1_bgkt2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Components" type="Node2D" parent="."]
+
+[node name="Interface" parent="." instance=ExtResource("2_y2j81")]
