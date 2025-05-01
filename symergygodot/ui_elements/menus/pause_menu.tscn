@@ -143,14 +143,6 @@ theme_override_fonts/font = ExtResource("3_ccio2")
 theme_override_font_sizes/font_size = 32
 text = "SETTINGS"
 
-[node name="Credits" type="Button" parent="AspectRatioContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme = SubResource("Theme_6urpy")
-theme_override_fonts/font = ExtResource("3_ccio2")
-theme_override_font_sizes/font_size = 32
-text = "CREDITS"
-
 [node name="MainMenu" type="Button" parent="AspectRatioContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
