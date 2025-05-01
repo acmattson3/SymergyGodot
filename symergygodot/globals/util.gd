@@ -1,6 +1,8 @@
 extends Node
 
 signal edit_widget(widget)
+signal change_icon_scale(new_scale: float)
+signal change_tooltip_scale(new_scale: float)
 
 func get_dict_from_json_string(json_string: String):
 	var json = JSON.new()

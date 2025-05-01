@@ -2,16 +2,15 @@ extends Node2D
 
 @export var camera: Camera2D # Assign your Camera2D node in the inspector
 @export var zoom_speed: float = 0.1  # Speed of zooming
-@export var min_zoom: float = 0.5  # Minimum zoom level
-@export var max_zoom: float = 10.0  # Maximum zoom level
+@export var min_zoom: float = 0.05  # Minimum zoom level
+@export var max_zoom: float = 50.0  # Maximum zoom level
 @export var pan_speed: float = 2.0 # Pan speed multiplier
-@export var base_scale: float = 0.2
-@export var sensitivity: float = 0.5
+@export var base_scale: float = 0.15
 
 var dragging: bool = false
 var prev_mouse_pos: Vector2
 
-func gui_input(event: InputEvent):
+func gui_input(event: InputEvent) -> void:
 	if camera == null:
 		return
 	
@@ -21,8 +20,8 @@ func gui_input(event: InputEvent):
 	
 	elif event is InputEventMouseMotion and dragging:
 		var screen_delta = event.relative * pan_speed
-		var world_delta = screen_delta * camera.zoom.x
-		camera.position -= world_delta*sensitivity
+		var world_delta = screen_delta/(2*camera.zoom.x)
+		camera.position -= world_delta
 	
 	# Scroll to zoom
 	if event is InputEventMouseButton and event.pressed:
@@ -40,6 +39,12 @@ func _ready() -> void:
 	MQTTHandler.meterstructure_broadcast.connect(_on_meterstructure_broadcast)
 	if MQTTHandler.has_meterstructure():
 		_on_meterstructure_broadcast(MQTTHandler.get_meterstructure())
+	
+	Util.change_icon_scale.connect(_on_change_icon_scale)
+
+func _on_change_icon_scale(new_scale: float):
+	base_scale = new_scale
+	scale_component_icons()
 
 var components: Array[String] = []
 func _on_meterstructure_broadcast(meter_structure: Dictionary):
@@ -175,7 +180,6 @@ func get_connection_key(a: Component, b: Component) -> String:
 
 func scale_component_icons():
 	var scale_factor: float = base_scale / camera.zoom.x
-	#sensitivity = 0.5*camera.zoom.x
 	for component in $Components.get_children():
 		if component is Component:
 			component.scale_icon(scale_factor)

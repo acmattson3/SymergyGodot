@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dasv7yhbrelfs"]
+[gd_scene load_steps=16 format=3 uid="uid://dasv7yhbrelfs"]
 
 [ext_resource type="Script" path="res://feedline/component.gd" id="1_ri4ee"]
 [ext_resource type="Texture2D" uid="uid://beka25yjwvrrq" path="res://ui_elements/icons/airport.png" id="2_t6d1e"]
@@ -12,6 +12,15 @@
 [ext_resource type="Texture2D" uid="uid://b3f1qlge4pxpm" path="res://ui_elements/icons/residential_building.png" id="10_tien8"]
 [ext_resource type="Texture2D" uid="uid://nr6uwp0s1nax" path="res://ui_elements/icons/solar.png" id="11_i6xmr"]
 [ext_resource type="Texture2D" uid="uid://0npbtvo0lpgj" path="res://ui_elements/icons/wind.png" id="12_8c67n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kkovi"]
+size = Vector2(441, 382)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1mkpt"]
+size = Vector2(110, 190)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rd7ly"]
+bg_color = Color(0.120071, 0.165118, 0.372688, 1)
 
 [node name="Component" type="Node2D"]
 script = ExtResource("1_ri4ee")
@@ -63,3 +72,88 @@ texture = ExtResource("11_i6xmr")
 visible = false
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("12_8c67n")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="GeneralCollisionShape" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_kkovi")
+
+[node name="PoleCollisionShape" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_1mkpt")
+disabled = true
+
+[node name="Tooltip" type="PanelContainer" parent="."]
+visible = false
+top_level = true
+offset_right = 294.0
+offset_bottom = 294.0
+scale = Vector2(0.65, 0.65)
+theme_override_styles/panel = SubResource("StyleBoxFlat_rd7ly")
+
+[node name="GridContainer" type="GridContainer" parent="Tooltip"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "ID: "
+
+[node name="IDLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label2" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Voltage: "
+
+[node name="VoltageLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label3" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Current: "
+
+[node name="CurrentLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label4" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Power: "
+
+[node name="PowerLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label5" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Energy: "
+
+[node name="EnergyLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label6" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Status: "
+
+[node name="StatusLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

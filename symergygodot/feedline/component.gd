@@ -4,11 +4,26 @@ class_name Component
 enum ComponentType { NONE, SOURCE, LOAD, DIST }
 
 # Current grid info.
-var current_voltage: float = 0.0 # V
-var current_demand: float  = 0.0 # A
-var current_power: float   = 0.0 # kW
-var current_energy: float  = 0.0 # kWh
-var current_status: bool = true
+var current_voltage: float = 0.0: # V
+	set(value):
+		current_voltage = value
+		%VoltageLabel.text = "%0.2f" % value 
+var current_demand: float  = 0.0: # A
+	set(value):
+		current_demand = value
+		%CurrentLabel.text = "%0.2f" % value 
+var current_power: float   = 0.0: # kW
+	set(value):
+		current_power = value
+		%PowerLabel.text = "%0.2f" % value 
+var current_energy: float  = 0.0: # kWh
+	set(value):
+		current_energy = value
+		%EnergyLabel.text = "%0.2f" % value 
+var current_status: bool = true:
+	set(value):
+		current_status = value
+		%StatusLabel.text = "Running" if value else "Stopped"
 
 @export var latitude: float = 0.0
 @export var longitude: float = 0.0
@@ -18,6 +33,8 @@ var current_status: bool = true
 @export var category: String = "none"
 @export var disp_name: String = "Unnamed Component"
 @export var connections: Array[Component] = []
+
+var tooltip_scale := 4.0
 
 static func create(
 		in_id: String, 
@@ -38,12 +55,20 @@ static func create(
 func _ready() -> void:
 	id = name
 	MQTTHandler.request_new_component_metric(id, "voltage")
+	MQTTHandler.request_new_component_metric(id, "current")
+	MQTTHandler.request_new_component_metric(id, "power")
+	MQTTHandler.request_new_component_metric(id, "energy")
+	MQTTHandler.request_new_component_metric(id, "status")
+	
+	Util.change_tooltip_scale.connect(_on_change_tooltip_scale)
 	
 	if "airport" in id:
 		$Airport.show()
 	elif "generator" in id:
 		$Generator.show()
 	elif category == "distribution":
+		$Area2D/GeneralCollisionShape.disabled = true
+		$Area2D/PoleCollisionShape.disabled = false
 		$Pole.show()
 	elif category == "solar":
 		$Solar.show()
@@ -52,12 +77,17 @@ func _ready() -> void:
 	elif category == "hydro":
 		$Hydro.show()
 	elif category == "residential":
-			$ResidentialBuilding.show()
+		$ResidentialBuilding.show()
 	elif category == "commercial" or category == "municipal":
-			$CommercialBuilding.show()
-	
+		$CommercialBuilding.show()
+	else:
+		$CommercialBuilding.show()
 
-var update_interval := 1.0
+func _on_change_tooltip_scale(value: float):
+	tooltip_scale = value
+	scale_icon(scale_factor)
+
+var update_interval := 0.5
 var update_elapsed := 0.0
 func _process(delta: float) -> void:
 	update_elapsed += delta
@@ -66,6 +96,19 @@ func _process(delta: float) -> void:
 		var package = MQTTHandler.get_component_metric(id, "voltage")
 		if package:
 			current_voltage = package.value
+		package = MQTTHandler.get_component_metric(id, "current")
+		if package:
+			current_demand = package.value
+		package = MQTTHandler.get_component_metric(id, "power")
+		if package:
+			current_power = package.value
+		package = MQTTHandler.get_component_metric(id, "energy")
+		if package:
+			current_energy = package.value
+		package = MQTTHandler.get_component_metric(id, "status")
+		if package:
+			current_status = package.value
+			
 
 func get_latitude():
 	return latitude
@@ -144,6 +187,19 @@ func get_id() -> String:
 func set_id(new_id: String) -> void:
 	id = new_id
 	name = new_id
+	%IDLabel.text = new_id
 
-func scale_icon(scale_factor: float):
+var scale_factor: float = 0.2
+func scale_icon(new_scale_factor: float):
+	scale_factor = new_scale_factor
 	scale = Vector2.ONE * scale_factor
+	$Tooltip.scale = Vector2.ONE * scale_factor * tooltip_scale
+
+func _on_area_2d_mouse_entered() -> void:
+	if get_parent():  # Ensure the widget has a parent
+		get_parent().move_child(self, -1)  # Moves this node to the last index (topmost)
+	$Tooltip.show()
+	$Tooltip.global_position = get_global_mouse_position()
+
+func _on_area_2d_mouse_exited() -> void:
+	$Tooltip.hide()

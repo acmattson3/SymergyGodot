@@ -2,8 +2,6 @@ extends Control
 
 @export var SENSITIVITYSLIDER : HSlider
 @export var SENSITVITYNUMBER : Label
-@export var FOVSLIDER : HSlider
-@export var FOVNUMBER : Label
 
 func _ready() -> void:
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
@@ -14,10 +12,8 @@ func _on_exit_settings_pressed() -> void:
 	hide()
 
 func _on_sensitivity_slider_value_changed(value: float) -> void:
-	SENSITVITYNUMBER.text = str(SENSITIVITYSLIDER.value)
-
-func _on_fov_slider_value_changed(value: float) -> void:
-	FOVNUMBER.text = str(FOVSLIDER.value)
+	SENSITVITYNUMBER.text = str(value)
+	Util.change_icon_scale.emit((value/50)*0.15)
 
 func send_mqtt_message(message: String) -> void:
 	%MQTTMessagesLabel.text += message+"\n"
@@ -46,4 +42,7 @@ func _on_test_connect_button_pressed() -> void:
 		var url_string = "No URL provided." if broker_url=="" else broker_url
 		send_mqtt_message("Invalid MQTT URL: "+url_string)
 		return
-	
+
+func _on_tooltip_scale_slider_value_changed(value: float) -> void:
+	%TooltipSliderNum.text = str(value)
+	Util.change_tooltip_scale.emit((value/50.0)*4.0)
