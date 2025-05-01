@@ -143,14 +143,6 @@ theme_override_fonts/font = ExtResource("5_kgqnq")
 theme_override_font_sizes/font_size = 32
 text = "SETTINGS"
 
-[node name="Credits" type="Button" parent="AspectRatioContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme = SubResource("Theme_kgkfv")
-theme_override_fonts/font = ExtResource("5_kgqnq")
-theme_override_font_sizes/font_size = 32
-text = "CREDITS"
-
 [node name="Exit" type="Button" parent="AspectRatioContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -165,5 +157,4 @@ layout_mode = 1
 
 [connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="AspectRatioContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
