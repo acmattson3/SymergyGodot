@@ -1,0 +1,159 @@
+[gd_scene load_steps=16 format=3 uid="uid://dasv7yhbrelfs"]
+
+[ext_resource type="Script" path="res://feedline/component.gd" id="1_ri4ee"]
+[ext_resource type="Texture2D" uid="uid://beka25yjwvrrq" path="res://ui_elements/icons/airport.png" id="2_t6d1e"]
+[ext_resource type="Texture2D" uid="uid://ch4h60xv5x2y6" path="res://ui_elements/icons/commercial_building.png" id="3_8u8qe"]
+[ext_resource type="Texture2D" uid="uid://b067cyxfp82is" path="res://ui_elements/icons/converter.png" id="4_8udub"]
+[ext_resource type="Texture2D" uid="uid://da6k43fhw680w" path="res://ui_elements/icons/fuel_tank.png" id="5_tnaud"]
+[ext_resource type="Texture2D" uid="uid://bp40t2bm8hog5" path="res://ui_elements/icons/generator.png" id="6_736m0"]
+[ext_resource type="Texture2D" uid="uid://me8mx4yjiasf" path="res://ui_elements/icons/hydro.png" id="7_6u2y4"]
+[ext_resource type="Texture2D" uid="uid://8qmrcox5nrs5" path="res://ui_elements/icons/pole.png" id="8_ovep0"]
+[ext_resource type="Texture2D" uid="uid://fskuncg135fp" path="res://ui_elements/icons/pole_transformer.png" id="9_3c24v"]
+[ext_resource type="Texture2D" uid="uid://b3f1qlge4pxpm" path="res://ui_elements/icons/residential_building.png" id="10_tien8"]
+[ext_resource type="Texture2D" uid="uid://nr6uwp0s1nax" path="res://ui_elements/icons/solar.png" id="11_i6xmr"]
+[ext_resource type="Texture2D" uid="uid://0npbtvo0lpgj" path="res://ui_elements/icons/wind.png" id="12_8c67n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kkovi"]
+size = Vector2(441, 382)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1mkpt"]
+size = Vector2(110, 190)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rd7ly"]
+bg_color = Color(0.120071, 0.165118, 0.372688, 1)
+
+[node name="Component" type="Node2D"]
+script = ExtResource("1_ri4ee")
+
+[node name="Airport" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_t6d1e")
+
+[node name="CommercialBuilding" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_8u8qe")
+
+[node name="Converter" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_8udub")
+
+[node name="FuelTank" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_tnaud")
+
+[node name="Generator" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("6_736m0")
+
+[node name="Hydro" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("7_6u2y4")
+
+[node name="Pole" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_ovep0")
+
+[node name="PoleTransformer" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("9_3c24v")
+
+[node name="ResidentialBuilding" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("10_tien8")
+
+[node name="Solar" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("11_i6xmr")
+
+[node name="Wind" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("12_8c67n")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="GeneralCollisionShape" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_kkovi")
+
+[node name="PoleCollisionShape" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_1mkpt")
+disabled = true
+
+[node name="Tooltip" type="PanelContainer" parent="."]
+visible = false
+top_level = true
+offset_right = 294.0
+offset_bottom = 294.0
+scale = Vector2(0.65, 0.65)
+theme_override_styles/panel = SubResource("StyleBoxFlat_rd7ly")
+
+[node name="GridContainer" type="GridContainer" parent="Tooltip"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "ID: "
+
+[node name="IDLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label2" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Voltage: "
+
+[node name="VoltageLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label3" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Current: "
+
+[node name="CurrentLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label4" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Power: "
+
+[node name="PowerLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label5" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Energy: "
+
+[node name="EnergyLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[node name="Label6" type="Label" parent="Tooltip/GridContainer"]
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+text = "Status: "
+
+[node name="StatusLabel" type="Label" parent="Tooltip/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SettingsLabel"
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

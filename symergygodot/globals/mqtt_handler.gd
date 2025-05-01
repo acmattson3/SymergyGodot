@@ -6,8 +6,8 @@ extends Node
 # but then heavily rewritten to follow https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
 # Updated by Andrew C Mattson for use in Symergy
 
-const BROKER_HOSTNAME: String = "tcp://sssn.us"
-#const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
+#const BROKER_HOSTNAME: String = "tcp://sssn.us"
+const BROKER_HOSTNAME: String = "tcp://192.168.40.14"
 
 ## SYMERGY LOGIC
 signal meterstructure_broadcast(meter_structure: Dictionary)
@@ -66,7 +66,10 @@ func request_new_component_metric(comp_id: String, metric: String, force_resub: 
 	if not meter_structure.has(comp_id):
 		print("WARNING: Component ", comp_id, " not found!")
 		return # We don't have that component
-	topic += meter_structure[comp_id].type + "s/"
+	if meter_structure[comp_id].type == "none":
+		topic += "misc/"
+	else:
+		topic += meter_structure[comp_id].type + "s/"
 	topic += comp_id + "/" + metric
 	
 	MQTTHandler.subscribe(topic)

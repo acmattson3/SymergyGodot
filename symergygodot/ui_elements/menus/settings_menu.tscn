@@ -1,12 +1,10 @@
-[gd_scene load_steps=30 format=3 uid="uid://5goygekty5xi"]
+[gd_scene load_steps=17 format=3 uid="uid://5goygekty5xi"]
 
 [ext_resource type="Script" path="res://ui_elements/menus/settings_menu.gd" id="1_vq0cp"]
 [ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_wmj80"]
 [ext_resource type="Texture2D" uid="uid://cmhk1ndmke4gq" path="res://ui_elements/graphics/yellow_corner.png" id="3_n07rw"]
 [ext_resource type="FontFile" uid="uid://xw5x0vmj0ffm" path="res://ui_elements/fonts/Oswald-VariableFont_wght.ttf" id="4_vr8hb"]
 [ext_resource type="Texture2D" uid="uid://dmeyoneejjgnv" path="res://ui_elements/graphics/slider_box.png" id="5_ho8kn"]
-[ext_resource type="Texture2D" uid="uid://bmw17t88sxqk5" path="res://ui_elements/graphics/checkbox_yes.png" id="6_3361j"]
-[ext_resource type="Texture2D" uid="uid://em6jktk8gyna" path="res://ui_elements/graphics/checkbox_no.png" id="7_5tytt"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ecqmu"]
 texture = ExtResource("2_wmj80")
@@ -58,32 +56,10 @@ content_margin_right = 8.0
 content_margin_bottom = 8.0
 bg_color = Color(1, 0.8, 0.0156863, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u23wu"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lu0vj"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e6nkv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aejxk"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_daml7"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4j0dy"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tho71"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xfrrl"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ol5y"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jw73c"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vobm1"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rc2vf"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="SettingsMenu" type="Control" node_paths=PackedStringArray("SENSITIVITYSLIDER", "SENSITVITYNUMBER", "FOVSLIDER", "FOVNUMBER")]
+[node name="SettingsMenu" type="Control" node_paths=PackedStringArray("SENSITIVITYSLIDER", "SENSITVITYNUMBER")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -92,10 +68,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vq0cp")
-SENSITIVITYSLIDER = NodePath("SettingsContainer/LeftVBoxContainer/SensitivtySetting/Panel/SensitivitySlider")
-SENSITVITYNUMBER = NodePath("SettingsContainer/LeftVBoxContainer/SensitivtySetting/Panel/SensitivitySlider/SensitivityNumber")
-FOVSLIDER = NodePath("SettingsContainer/LeftVBoxContainer/HBoxContainer4/Panel/FovSlider")
-FOVNUMBER = NodePath("SettingsContainer/LeftVBoxContainer/HBoxContainer4/Panel/FovSlider/FovNumber")
+SENSITIVITYSLIDER = NodePath("SettingsContainer/LeftVBoxContainer/IconScale/Panel/IconScaleSlider")
+SENSITVITYNUMBER = NodePath("SettingsContainer/LeftVBoxContainer/IconScale/Panel/IconScaleSlider/SensitivityNumber")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 1
@@ -216,18 +190,18 @@ size_flags_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_vr8hb")
 theme_override_font_sizes/font_size = 48
-text = "CAMERA"
+text = "GENERAL"
 
-[node name="SensitivtySetting" type="HBoxContainer" parent="SettingsContainer/LeftVBoxContainer"]
+[node name="IconScale" type="HBoxContainer" parent="SettingsContainer/LeftVBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="SettingsContainer/LeftVBoxContainer/SensitivtySetting"]
+[node name="Panel" type="Panel" parent="SettingsContainer/LeftVBoxContainer/IconScale"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_adbam")
 
-[node name="SensitivtyLabel" type="Label" parent="SettingsContainer/LeftVBoxContainer/SensitivtySetting/Panel"]
+[node name="IconScaleLabel" type="Label" parent="SettingsContainer/LeftVBoxContainer/IconScale/Panel"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -240,10 +214,10 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("4_vr8hb")
 theme_override_font_sizes/font_size = 36
-text = "SENSITIVITY"
+text = "MAP ICON SCALE"
 vertical_alignment = 1
 
-[node name="SensitivitySlider" type="HSlider" parent="SettingsContainer/LeftVBoxContainer/SensitivtySetting/Panel"]
+[node name="IconScaleSlider" type="HSlider" parent="SettingsContainer/LeftVBoxContainer/IconScale/Panel"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -265,7 +239,7 @@ theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_8ay5l")
 step = 0.1
 value = 50.0
 
-[node name="SensitivityNumber" type="Label" parent="SettingsContainer/LeftVBoxContainer/SensitivtySetting/Panel/SensitivitySlider"]
+[node name="SensitivityNumber" type="Label" parent="SettingsContainer/LeftVBoxContainer/IconScale/Panel/IconScaleSlider"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -282,16 +256,16 @@ text = "50"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="YAxisInvertsetting" type="HBoxContainer" parent="SettingsContainer/LeftVBoxContainer"]
+[node name="TooltipScale" type="HBoxContainer" parent="SettingsContainer/LeftVBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="SettingsContainer/LeftVBoxContainer/YAxisInvertsetting"]
+[node name="Panel" type="Panel" parent="SettingsContainer/LeftVBoxContainer/TooltipScale"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_adbam")
 
-[node name="YAxisInvertLabel" type="Label" parent="SettingsContainer/LeftVBoxContainer/YAxisInvertsetting/Panel"]
+[node name="SensitivtyLabel" type="Label" parent="SettingsContainer/LeftVBoxContainer/TooltipScale/Panel"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -304,68 +278,10 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("4_vr8hb")
 theme_override_font_sizes/font_size = 36
-text = "Y-AXIS INVERT"
+text = "MAP TOOLTIP SCALE"
 vertical_alignment = 1
 
-[node name="CheckButton" type="CheckButton" parent="SettingsContainer/LeftVBoxContainer/YAxisInvertsetting/Panel"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -116.0
-offset_top = -24.0
-offset_right = -20.0
-offset_bottom = 24.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_u23wu")
-theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_lu0vj")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_e6nkv")
-theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_aejxk")
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_daml7")
-theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_4j0dy")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_tho71")
-theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_xfrrl")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3ol5y")
-theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_jw73c")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_vobm1")
-theme_override_icons/checked = ExtResource("6_3361j")
-theme_override_icons/unchecked = ExtResource("7_5tytt")
-theme_override_icons/checked_disabled = ExtResource("6_3361j")
-theme_override_icons/unchecked_disabled = ExtResource("7_5tytt")
-theme_override_icons/checked_mirrored = ExtResource("6_3361j")
-theme_override_icons/unchecked_mirrored = ExtResource("7_5tytt")
-theme_override_icons/checked_disabled_mirrored = ExtResource("6_3361j")
-theme_override_icons/unchecked_disabled_mirrored = ExtResource("7_5tytt")
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsContainer/LeftVBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Panel" type="Panel" parent="SettingsContainer/LeftVBoxContainer/HBoxContainer4"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_adbam")
-
-[node name="FovSliderLabel" type="Label" parent="SettingsContainer/LeftVBoxContainer/HBoxContainer4/Panel"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 20.0
-offset_top = -27.0
-offset_right = 180.0
-offset_bottom = 27.0
-grow_vertical = 2
-size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("4_vr8hb")
-theme_override_font_sizes/font_size = 36
-text = "FOV SLIDER"
-vertical_alignment = 1
-
-[node name="FovSlider" type="HSlider" parent="SettingsContainer/LeftVBoxContainer/HBoxContainer4/Panel"]
+[node name="TooltipScaleSlider" type="HSlider" parent="SettingsContainer/LeftVBoxContainer/TooltipScale/Panel"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -384,11 +300,11 @@ theme_override_icons/grabber_disabled = ExtResource("5_ho8kn")
 theme_override_styles/slider = SubResource("StyleBoxFlat_kso8q")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_n2q23")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_8ay5l")
-min_value = 30.0
-max_value = 120.0
-value = 70.0
+step = 0.1
+value = 50.0
 
-[node name="FovNumber" type="Label" parent="SettingsContainer/LeftVBoxContainer/HBoxContainer4/Panel/FovSlider"]
+[node name="TooltipSliderNum" type="Label" parent="SettingsContainer/LeftVBoxContainer/TooltipScale/Panel/TooltipScaleSlider"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -401,7 +317,7 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("4_vr8hb")
 theme_override_font_sizes/font_size = 36
-text = "70"
+text = "50"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -628,6 +544,6 @@ theme_override_font_sizes/font_size = 28
 vertical_alignment = 1
 
 [connection signal="pressed" from="Background/ExitSettings" to="." method="_on_exit_settings_pressed"]
-[connection signal="value_changed" from="SettingsContainer/LeftVBoxContainer/SensitivtySetting/Panel/SensitivitySlider" to="." method="_on_sensitivity_slider_value_changed"]
-[connection signal="value_changed" from="SettingsContainer/LeftVBoxContainer/HBoxContainer4/Panel/FovSlider" to="." method="_on_fov_slider_value_changed"]
+[connection signal="value_changed" from="SettingsContainer/LeftVBoxContainer/IconScale/Panel/IconScaleSlider" to="." method="_on_sensitivity_slider_value_changed"]
+[connection signal="value_changed" from="SettingsContainer/LeftVBoxContainer/TooltipScale/Panel/TooltipScaleSlider" to="." method="_on_tooltip_scale_slider_value_changed"]
 [connection signal="pressed" from="SettingsContainer/LeftVBoxContainer/HBoxContainer8/Panel/TestConnectButton" to="." method="_on_test_connect_button_pressed"]

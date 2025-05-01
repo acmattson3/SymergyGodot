@@ -30,7 +30,7 @@ var _save_filepath: String = "user://autosave.json"
 var default_save: String = "autosave"
 
 var save_state_loaded: bool = false
-const debugging = true
+const debugging = false
 
 func _ready():
 	pass

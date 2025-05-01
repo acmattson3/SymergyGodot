@@ -18,15 +18,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_yemto")
 
 [node name="Background" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+visible = false
+layout_mode = 2
 texture = ExtResource("2_neno6")
 
 [node name="Widgets" type="Control" parent="."]
@@ -36,20 +33,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="WidgetButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -80.0
 offset_top = -80.0
-offset_right = -20.0
-offset_bottom = -20.0
-grow_horizontal = 0
-grow_vertical = 0
+offset_right = -30.0
+offset_bottom = -30.0
 theme = ExtResource("3_iex3g")
 theme_override_font_sizes/font_size = 96
 icon = ExtResource("4_gjl2n")
@@ -57,18 +53,15 @@ expand_icon = true
 
 [node name="WidgetCreationMenu" type="PanelContainer" parent="."]
 visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.292
-anchor_top = 0.13
-anchor_right = 0.708
-anchor_bottom = 0.87
-offset_left = -100.64
-offset_top = -0.399994
-offset_right = 100.64
-offset_bottom = 0.400024
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -400.0
+offset_right = 500.0
+offset_bottom = 400.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_pyhgx")
 
 [node name="WidgetCreationBars" type="VBoxContainer" parent="WidgetCreationMenu"]
@@ -374,17 +367,17 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ConnectingLabel" type="Label" parent="."]
-layout_mode = 0
-offset_right = 457.0
-offset_bottom = 94.0
+layout_mode = 2
 theme_type_variation = &"SettingsLabel"
 theme_override_colors/font_color = Color(0.886275, 0, 0, 1)
 text = "Connecting to MQTT broker..."
 
 [node name="PauseMenu" parent="." instance=ExtResource("7_diikk")]
 visible = false
-layout_mode = 1
+layout_mode = 2
+anchors_preset = 0
 
+[connection signal="gui_input" from="Widgets" to="." method="_on_widgets_gui_input"]
 [connection signal="pressed" from="WidgetButton" to="." method="_on_widget_button_pressed"]
 [connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/TitleBar/ExitButton" to="." method="_on_widget_button_pressed"]
 [connection signal="item_selected" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/WidgetType/WidgetOptionButton" to="." method="_on_widget_option_button_item_selected"]
