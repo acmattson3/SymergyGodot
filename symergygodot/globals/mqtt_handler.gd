@@ -293,7 +293,7 @@ func _process(delta):
 	elif broker_connect_mode == BCM_FAILED_CONNECTION:
 		cleanup_sockets()
 
-var has_login_file: bool = true
+var has_login_file: bool = false
 var mqtt_host := BROKER_HOSTNAME
 func _ready():
 	process_mode=PROCESS_MODE_ALWAYS
