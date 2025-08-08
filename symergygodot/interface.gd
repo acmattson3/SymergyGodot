@@ -74,12 +74,7 @@ func _on_loaded_save_state(save_state: Dictionary):
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("escape"):
-		await get_tree().process_frame
-		if $WidgetCreationMenu.visible:
-			$WidgetCreationMenu.hide()
-			editing = false
-		else:
-			$PauseMenu.do_pause()
+		open_menu()
 	if Input.is_action_just_pressed("fullscreen"):
 		if widget_in_focus != null:
 			widget_in_focus.go_fullscreen()
@@ -263,6 +258,14 @@ func create_multiline_widget(widget: Dictionary) -> void:
 	
 	create_widget(ui_element, Widget.WidgetType.MULTILINE, widget)
 
+func open_menu():
+	await get_tree().process_frame
+	if $WidgetCreationMenu.visible:
+		$WidgetCreationMenu.hide()
+		editing = false
+	else:
+		$PauseMenu.do_pause()
+
 func _on_lookup_box_selection_made(item: String) -> void:
 	%LookupBox.search_for()
 	match widget_type:
@@ -286,3 +289,6 @@ func _on_widget_got_clicked(widget):
 
 func _on_widgets_gui_input(event: InputEvent) -> void:
 	interface_gui_input.emit(event)
+
+func _on_settings_button_pressed() -> void:
+	open_menu()

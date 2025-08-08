@@ -13,6 +13,7 @@ config_version=5
 config/name="SymergyGodot"
 run/main_scene="res://ui_elements/menus/main_menu.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+config/icon="uid://dd56qeo0vy6ap"
 
 [autoload]
 
@@ -48,3 +49,4 @@ fullscreen={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

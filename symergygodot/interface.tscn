@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://d0mlkbg2pyqyg"]
+[gd_scene load_steps=10 format=3 uid="uid://d0mlkbg2pyqyg"]
 
-[ext_resource type="Script" path="res://interface.gd" id="1_yemto"]
+[ext_resource type="Script" uid="uid://77rj3j8r3mpj" path="res://interface.gd" id="1_yemto"]
 [ext_resource type="Texture2D" uid="uid://swksnt70n4g0" path="res://ui_elements/graphics/blue_topography_pattern.png" id="2_neno6"]
 [ext_resource type="Theme" uid="uid://do1eo1aba15rq" path="res://ui_elements/themes/main_theme.tres" id="3_iex3g"]
 [ext_resource type="Texture2D" uid="uid://b32ift86e1r3w" path="res://ui_elements/graphics/plus_icon.png" id="4_gjl2n"]
+[ext_resource type="Texture2D" uid="uid://32yedpqqjxo5" path="res://ui_elements/graphics/gear.png" id="5_jllm8"]
 [ext_resource type="PackedScene" uid="uid://dy2hfp16618ef" path="res://ui_elements/tick_button/tick_button.tscn" id="6_d384x"]
 [ext_resource type="PackedScene" uid="uid://xmnj0a50egcw" path="res://ui_elements/menus/pause_menu.tscn" id="7_diikk"]
 [ext_resource type="PackedScene" uid="uid://bj21iy6v6qopj" path="res://ui_elements/lookup_box/lookup_box.tscn" id="7_v7akk"]
@@ -49,6 +50,20 @@ offset_bottom = -30.0
 theme = ExtResource("3_iex3g")
 theme_override_font_sizes/font_size = 96
 icon = ExtResource("4_gjl2n")
+expand_icon = true
+
+[node name="SettingsButton" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 40.0
+offset_right = -30.0
+offset_bottom = 90.0
+theme = ExtResource("3_iex3g")
+theme_override_font_sizes/font_size = 96
+icon = ExtResource("5_jllm8")
 expand_icon = true
 
 [node name="WidgetCreationMenu" type="PanelContainer" parent="."]
@@ -140,6 +155,7 @@ theme_override_font_sizes/font_size = 32
 selected = 0
 item_count = 3
 popup/item_0/text = "None"
+popup/item_0/id = 0
 popup/item_1/text = "Gauge"
 popup/item_1/id = 1
 popup/item_2/text = "Multiline Graph"
@@ -191,6 +207,7 @@ size_flags_horizontal = 3
 selected = 0
 item_count = 4
 popup/item_0/text = "voltage"
+popup/item_0/id = 0
 popup/item_1/text = "current"
 popup/item_1/id = 1
 popup/item_2/text = "power"
@@ -379,6 +396,7 @@ anchors_preset = 0
 
 [connection signal="gui_input" from="Widgets" to="." method="_on_widgets_gui_input"]
 [connection signal="pressed" from="WidgetButton" to="." method="_on_widget_button_pressed"]
+[connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="WidgetCreationMenu/WidgetCreationBars/TitleBar/ExitButton" to="." method="_on_widget_button_pressed"]
 [connection signal="item_selected" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/WidgetType/WidgetOptionButton" to="." method="_on_widget_option_button_item_selected"]
 [connection signal="text_changed" from="WidgetCreationMenu/WidgetCreationBars/HBoxContainer2/VBoxContainer/GaugeVBox/SingleVBox/HBoxContainer/SingleLookupLineEdit" to="." method="_on_lookup_line_edit_text_changed"]
