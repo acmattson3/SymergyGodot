@@ -81,8 +81,8 @@ func create_connections(meter_structure: Dictionary):
 					break
 
 func position_components():
-	var components = $Components.get_children()
-	if components.is_empty():
+	var in_components = $Components.get_children()
+	if in_components.is_empty():
 		return
 
 	var sum_lat = 0.0
@@ -90,7 +90,7 @@ func position_components():
 	var positions = []
 
 	# Collect lat/lon values
-	for component: Component in components:
+	for component: Component in in_components:
 		if component.has_method("get_latitude") and component.has_method("get_longitude"):
 			var lat = component.get_latitude()
 			var lon = component.get_longitude()
@@ -140,7 +140,7 @@ func position_components():
 
 	# Apply new positions
 	for i in range(count):
-		components[i].position = adjusted_positions[i] * scale_factor
+		in_components[i].position = adjusted_positions[i] * scale_factor
 
 func draw_connections() -> void:
 	var existing_connections := {}  # Dictionary to track created connections

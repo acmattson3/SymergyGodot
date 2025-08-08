@@ -68,10 +68,10 @@ func _physics_process(delta: float) -> void:
 	guage_needle.rotation_degrees = lerpf(guage_needle.rotation_degrees, target_angle, 5.0*delta)
 	set_needle_offset()
 
-static func create(max: float, bal: float, min: float) -> ValueGauge:
+static func create(in_max: float, bal: float, in_min: float) -> ValueGauge:
 	var new_gauge: ValueGauge = load("res://ui_elements/value_gauge/value_gauge.tscn").instantiate()
-	new_gauge.value_max = max
-	new_gauge.value_min = min
+	new_gauge.value_max = in_max
+	new_gauge.value_min = in_min
 	new_gauge.value_bal = bal
 	
 	return new_gauge
