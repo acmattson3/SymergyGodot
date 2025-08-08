@@ -1,6 +1,8 @@
 # SymergyGodot - Microgrid Visualization Platform
 
-SymergyGodot is a comprehensive executable for visualizing and monitoring microgrid systems. It provides real-time data visualization of electrical components including power sources, loads, and distribution infrastructure.
+SymergyGodot is a digital twin tool for visualizing and monitoring microgrid systems. It provides real-time data visualization of electrical components.
+
+As of **August 7th, 2025**, a web export of SymergyGodot is hosted [here](https://sssn.us/symergygodot/). Due to this being on the web, TCP connections will *not* work. So, to connect to an MQTT broker, you must prefix your broker hostname with `wss://` (secure websocket) in the settings menu before hitting "attempt to connect to broker." This tells the MQTT logic to use a websocket and not TCP. Your broker must enable secure websocket connections, too.
 
 ## Features
 
@@ -11,7 +13,9 @@ SymergyGodot is a comprehensive executable for visualizing and monitoring microg
 
 ## About
 
-SymergyGodot is built using **Godot 4.3**. It functions as a standalone executable file. It follows [**this MQTT standard**](https://github.com/acmattson3/SymergySim/blob/main/mqtt_standard.md).
+SymergyGodot is built using **Godot 4.4.1**. It functions as a standalone executable file. It follows [**this MQTT standard**](https://github.com/acmattson3/SymergySim/blob/main/mqtt_standard.md). 
+
+The sister project to SymergyGodot is [SymergyWeb](https://github.com/FireAstrox/SymergyWeb). SymergyWeb is built exclusively for the web, and as such is more user-friendly for web users. However, the two interfaces (SymergyGodot and SymergyWeb) are vastly different in functionalities and visuals.
 
 ## Development
 
